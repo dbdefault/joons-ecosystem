@@ -8,7 +8,7 @@ JOONS is an MCP-centered AI infrastructure ecosystem that connects AI agents wit
 ![Agent Guard Preview](https://img.shields.io/badge/Agent%20Guard-Preview-orange?labelColor=4F46E5)
 ![Allocator Preview](https://img.shields.io/badge/Allocator-Preview-orange?labelColor=4F46E5)
 ![MCP Toolkit Public](https://img.shields.io/badge/MCP%20Toolkit-Public-brightgreen?labelColor=4F46E5)
-![MCP Probe Planned](https://img.shields.io/badge/MCP%20Probe-In%20development-blue?labelColor=4F46E5)
+![MCP Probe Preview](https://img.shields.io/badge/MCP%20Probe-Preview-orange?labelColor=4F46E5)
 
 [한국어](README.ko.md)
 
@@ -31,7 +31,7 @@ flowchart TD
     CORE --> External["External tools and data sources"]
     Allocator["JOONS Allocator"] -. "optional hooks" .-> Guard["JOONS Agent Guard"]
     Toolkit["JOONS MCP Toolkit"]
-    Probe["JOONS MCP Probe in development"]
+    Probe["JOONS MCP Probe Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -39,7 +39,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe planned
+    class Probe preview
 ```
 
 This conceptual map does not imply that independent products are embedded in CORE. Allocator's optional Guard hooks are the only implemented library-to-library integration.
@@ -50,7 +50,7 @@ This conceptual map does not imply that independent products are embedded in COR
 | JOONS Agent Guard | Does it run safely? | Reliability and protection | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-agent-guard) |
 | JOONS Allocator | Who does which job? | Task allocation | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-allocator) |
 | JOONS MCP Toolkit | How should we build it? | Development reference | Public reference implementation, early | [Repository](https://github.com/dbdefault/joons-mcp-toolkit) |
-| JOONS MCP Probe | Does the MCP server work correctly? | Diagnostics and validation | In development; v0.1.0 Preview planned | Coming soon ([Roadmap](docs/ROADMAP.md)) |
+| JOONS MCP Probe | Does the MCP server work correctly? | Diagnostics and validation | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-probe) |
 
 ## What you can do today
 
@@ -92,9 +92,15 @@ Planned lease expiry and timeouts are not current features.
 
 The early public reference implementation presents patterns for request coordination, host routing, hybrid retrieval, and a durable request ledger. It is an educational reference, not production JOONS CORE.
 
-### Follow JOONS MCP Probe
+### Probe an MCP server
 
-Probe is in development; its 0.1.0 Preview is planned. It is designed for read-only MCP protocol and tool-contract diagnostics, without calling tools. Its repository will be published with the preview.
+Install the public preview from GitHub (not npm):
+
+```sh
+npm install -g github:dbdefault/joons-mcp-probe#v0.1.0
+```
+
+Probe inspects MCP servers over stdio or Streamable HTTP without calling tools. See the [repository](https://github.com/dbdefault/joons-mcp-probe) for CLI usage.
 
 ## Choosing a product
 
@@ -102,7 +108,7 @@ Probe is in development; its 0.1.0 Preview is planned. It is designed for read-o
 2. Need reliability primitives for a single machine? Start with JOONS Agent Guard.
 3. Need to allocate tasks to workers? Start with JOONS Allocator.
 4. Need MCP implementation patterns to study? Explore JOONS MCP Toolkit.
-5. Need protocol and tool-contract diagnostics? Follow JOONS MCP Probe's development.
+5. Need protocol and tool-contract diagnostics? Use JOONS MCP Probe.
 
 The libraries can be used without CORE. See the [project comparison](docs/PROJECTS.md) for scope and limitations.
 
@@ -135,7 +141,7 @@ No. It is an early public reference implementation. It does not expose or requir
 
 ### Can MCP Probe call tools?
 
-The planned 0.1.0 Preview is read-only and does not call tools. Opt-in, allow-listed tool-call checks are a later idea.
+The v0.1.0 Preview is read-only and does not call tools. Opt-in, allow-listed tool-call checks are a later idea.
 
 ## Contributing
 

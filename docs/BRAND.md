@@ -18,7 +18,7 @@ Official description: JOONS is an MCP-centered AI infrastructure ecosystem that 
 | Private | `lightgrey` | Private product |
 | Planned | `blue` | Planned work |
 
-Status labels describe availability, not a guarantee of integration. CORE is private and in operation; Guard and Allocator are public v0.1.0 previews; Toolkit is an early public reference implementation; Probe is in development with a v0.1.0 Preview planned.
+Status labels describe availability, not a guarantee of integration. CORE is private and in operation; Guard and Allocator are public v0.1.0 previews; Toolkit is an early public reference implementation; Probe is Public, v0.1.0 Preview.
 
 ## Badge snippets
 
@@ -27,7 +27,7 @@ Status labels describe availability, not a guarantee of integration. CORE is pri
 ![Agent Guard Preview](https://img.shields.io/badge/Agent%20Guard-Preview-orange?labelColor=4F46E5)
 ![Allocator Preview](https://img.shields.io/badge/Allocator-Preview-orange?labelColor=4F46E5)
 ![MCP Toolkit Public](https://img.shields.io/badge/MCP%20Toolkit-Public-brightgreen?labelColor=4F46E5)
-![MCP Probe Planned](https://img.shields.io/badge/MCP%20Probe-In%20development-blue?labelColor=4F46E5)
+![MCP Probe Preview](https://img.shields.io/badge/MCP%20Probe-Preview-orange?labelColor=4F46E5)
 ```
 
 ## Mermaid class definitions

@@ -1,7 +1,7 @@
 # Roadmap
 
 - [x] Phase 1 - Brand and portfolio: this ecosystem repository; Agent Guard 0.1.0 and Allocator 0.1.0 previews.
-- [ ] Phase 2 - MCP developer tools: MCP Probe 0.1.0 Preview is in progress. Later ideas include opt-in, allow-listed tool-call checks; resources and prompts inspection; CI-friendly baselines and diffing; and an optional MCP adapter.
+- [x] Phase 2 - MCP developer tools: MCP Probe 0.1.0 Preview. Later ideas include opt-in, allow-listed tool-call checks; resources and prompts inspection; CI-friendly baselines and diffing; and an optional MCP adapter.
 - [ ] Phase 3 - Independent MCP extension modules: extract general-purpose tools that CORE needs as standalone MCP packages.
 - [ ] Phase 4 - Ecosystem integration: connect Guard, Allocator and Probe to CORE where useful.
 

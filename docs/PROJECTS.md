@@ -8,7 +8,7 @@
 | JOONS Agent Guard | Python | 3.9+ | SQLite, one file | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS Allocator | Python | 3.9-3.13 | SQLite | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Toolkit | JavaScript | Not specified | In-memory coordinator; durable request ledger | MIT | Public reference implementation, early |
-| JOONS MCP Probe | JavaScript | Node.js 20+ | Not specified | Apache-2.0 | In development; v0.1.0 Preview planned |
+| JOONS MCP Probe | JavaScript ESM | Node.js 20+ | Not specified | Apache-2.0 | Public, v0.1.0 Preview |
 
 ## JOONS CORE
 
@@ -37,8 +37,10 @@
 
 ## JOONS MCP Probe
 
-- Status: In development; v0.1.0 Preview planned. Version: 0.1.0 planned. License: Apache-2.0. Language: JavaScript; runtime: Node.js 20+. Repository: coming soon (see the [Roadmap](ROADMAP.md)).
-- Capabilities: Designed to inspect any MCP server over stdio or Streamable HTTP: initialize handshake, protocol version, serverInfo, capabilities, tools/list, tool-name and JSON Schema checks, timings, failure classification, JSON and Markdown reports, and PASS/WARNING/FAIL results.
-- Limitations: In development and read-only; version 0.1 does not call tools. It focuses on protocol behaviour and tool contracts rather than host monitoring or tool-list browsing.
+- Status: Public, v0.1.0 Preview. Version: 0.1.0. License: Apache-2.0. Language: JavaScript ESM; runtime: Node.js 20+; depends on the official MCP SDK. [Repository](https://github.com/dbdefault/joons-mcp-probe).
+- Capabilities: Inspects MCP servers over stdio or Streamable HTTP; checks initialization, protocol information, tool names, duplicates, descriptions, inputSchema and outputSchema via JSON Schema compilation, and pagination. It records timings and failure classifications, produces JSON and Markdown reports with PASS/WARNING/FAIL, redacts secrets, bounds time, size and tool count, and cleans up child-process trees.
+- Failure kinds: `spawn_failed`, `connection_refused`, `handshake_failed`, `protocol_mismatch`, `invalid_response`, `timeout`, `process_exited`, `auth_failed`.
+- CLI exit codes: 0 pass, 1 warning with `--fail-on warning`, 2 fail, 3 usage error, 4 output error.
+- Limitations: Read-only; v0.1.0 sends only `initialize`, `notifications/initialized`, `tools/list` and `ping`, and does not call tools. It focuses on protocol behaviour and tool contracts rather than host monitoring or tool-list browsing. Install from GitHub; it is not on npm.
 
 [Back to README](../README.md)

@@ -37,11 +37,11 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    subgraph Public["Public products and planned tooling"]
+    subgraph Public["Public products"]
         Guard["JOONS Agent Guard"]
         Allocator["JOONS Allocator"]
         Toolkit["JOONS MCP Toolkit"]
-        Probe["JOONS MCP Probe in development"]
+        Probe["JOONS MCP Probe Preview"]
         Allocator -. "optional hooks" .-> Guard
     end
     subgraph Private["Private operating system"]
@@ -53,7 +53,7 @@ flowchart LR
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     class Toolkit public
     class Guard,Allocator preview
-    class Probe planned
+    class Probe preview
     class CORE private
 ```
 
@@ -77,7 +77,7 @@ Agent Guard supplies durable exclusive locks, a circuit breaker, and replay prot
 
 ### 5. MCP Development & Diagnostic Tools
 
-MCP Toolkit is an early public educational reference. It offers implementation patterns, not the production CORE server. MCP Probe is in development and is designed to inspect protocol behaviour and tool contracts without calling tools. It does not duplicate CORE host monitoring or tool-list browsing.
+MCP Toolkit is an early public educational reference. It offers implementation patterns, not the production CORE server. MCP Probe is Public, v0.1.0 Preview and inspects protocol behaviour and tool contracts without calling tools. It does not duplicate CORE host monitoring or tool-list browsing.
 
 ### 6. External Tools and Data Sources
 
@@ -89,7 +89,7 @@ An agent can interact with CORE through MCP. CORE's registry, transports and tar
 
 Separately, an application can use Allocator without CORE. When the optional Guard hooks are enabled, `before_lease` can veto within the lease transaction and `after_*` hooks run after commit. No other library-to-library integration is implemented today.
 
-Probe is designed as an external read-only inspector of MCP servers. It is in development. Its planned 0.1.0 Preview does not call tools; inspecting CORE is a future operator action, not an embedded integration.
+Probe is an external read-only inspector of MCP servers. Its v0.1.0 Preview does not call tools; inspecting CORE is a future operator action, not an embedded integration.
 
 ```mermaid
 sequenceDiagram
@@ -121,7 +121,7 @@ sequenceDiagram
 
 Durable state helps preserve the information a component records: Guard has durable locks and Allocator has an append-only audit. Allocator includes explicit retry and recover operations. These capabilities should be considered alongside the single-machine scope and the absence of automatic lock or lease expiry.
 
-Use an honest UNKNOWN when available evidence does not establish an outcome; do not infer execution from a request or a conceptual diagram. UNKNOWN is a reporting principle here, not a claim of a product status value. Probe's planned reports classify results as PASS, WARNING or FAIL.
+Use an honest UNKNOWN when available evidence does not establish an outcome; do not infer execution from a request or a conceptual diagram. UNKNOWN is a reporting principle here, not a claim of a product status value. Probe reports classify results as PASS, WARNING or FAIL.
 
 ## Current and future integration
 

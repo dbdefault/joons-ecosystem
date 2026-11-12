@@ -7,7 +7,7 @@ None of JOONS Agent Guard, JOONS Allocator, JOONS MCP Toolkit or JOONS MCP Probe
 | Implemented today | Allocator has optional Agent Guard hooks. This is the only implemented library-to-library integration. The core Allocator works without Guard. |
 | Planned | CORE could use Guard and Allocator internally where useful. |
 | Planned | Probe could gain an optional MCP adapter. |
-| Planned | Probe is designed as an external tool to inspect any MCP server, including CORE in the future when operated by its operator, without depending on CORE. |
+| Implemented today | Public, v0.1.0 Preview: Probe is an external read-only tool for inspecting MCP servers without depending on CORE. An operator could inspect CORE in the future. |
 
 Install the optional hooks with `pip install "joons-allocator[guard]"`. `joons_allocator.integrations.guard.GuardHooks` provides the hooks. `before_lease` can veto inside the lease transaction; `after_*` hooks run after commit.
 
@@ -39,6 +39,6 @@ sequenceDiagram
 
 ## Planned adapters and connections
 
-CORE could use Guard and Allocator internally where useful. Probe could gain an optional MCP adapter. Probe is designed as an external diagnostic tool that can inspect any MCP server, including CORE in the future when operated by its operator, without depending on CORE. These possibilities do not represent a present CORE integration. Probe's later ideas also include opt-in, allow-listed tool-call checks, resources and prompts inspection, and CI-friendly baselines and diffing.
+CORE could use Guard and Allocator internally where useful. Probe could gain an optional MCP adapter. The public v0.1.0 Preview is an external diagnostic tool that can inspect MCP servers, including CORE in the future when operated by its operator, without depending on CORE. These possibilities do not represent a present CORE integration. Probe's later ideas also include opt-in, allow-listed tool-call checks, resources and prompts inspection, and CI-friendly baselines and diffing.
 
 [Back to README](../README.md)

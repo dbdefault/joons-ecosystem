@@ -8,7 +8,7 @@ JOONS는 AI 에이전트를 도구, 컴퓨터, 지식, 신뢰할 수 있는 실�
 ![Agent Guard Preview](https://img.shields.io/badge/Agent%20Guard-Preview-orange?labelColor=4F46E5)
 ![Allocator Preview](https://img.shields.io/badge/Allocator-Preview-orange?labelColor=4F46E5)
 ![MCP Toolkit Public](https://img.shields.io/badge/MCP%20Toolkit-Public-brightgreen?labelColor=4F46E5)
-![MCP Probe Planned](https://img.shields.io/badge/MCP%20Probe-In%20development-blue?labelColor=4F46E5)
+![MCP Probe Preview](https://img.shields.io/badge/MCP%20Probe-Preview-orange?labelColor=4F46E5)
 
 [English](README.md)
 
@@ -31,7 +31,7 @@ flowchart TD
     CORE --> External["External tools and data sources"]
     Allocator["JOONS Allocator"] -. "optional hooks" .-> Guard["JOONS Agent Guard"]
     Toolkit["JOONS MCP Toolkit"]
-    Probe["JOONS MCP Probe in development"]
+    Probe["JOONS MCP Probe Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -39,7 +39,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe planned
+    class Probe preview
 ```
 
 이 개념도는 독립 제품이 CORE에 내장되어 있다는 뜻이 아닙니다. 현재 구현된 라이브러리 간 연동은 Allocator의 선택적 Guard 훅뿐입니다.
@@ -50,7 +50,7 @@ flowchart TD
 | JOONS Agent Guard | 안전하게 실행되나요? | 신뢰성과 보호 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-agent-guard) |
 | JOONS Allocator | 누가 어떤 작업을 하나요? | 작업 할당 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-allocator) |
 | JOONS MCP Toolkit | 어떻게 만들어야 하나요? | 개발 참조 자료 | 공개 참조 구현, 초기 단계 | [저장소](https://github.com/dbdefault/joons-mcp-toolkit) |
-| JOONS MCP Probe | MCP 서버가 올바르게 동작하나요? | 진단과 검증 | 개발 중; v0.1.0 Preview 예정 | 공개 예정 ([로드맵](docs/ROADMAP.md)) |
+| JOONS MCP Probe | MCP 서버가 올바르게 동작하나요? | 진단과 검증 | Public, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-probe) |
 
 ## What you can do today
 
@@ -92,9 +92,15 @@ Guard 잠금은 저절로 만료되지 않으며 Allocator에는 리스 만료�
 
 초기 공개 참조 구현은 요청 조정, 호스트 라우팅, 하이브리드 검색, 지속적인 요청 원장 패턴을 보여 줍니다. 교육용 참조 자료이며 운영용 JOONS CORE가 아닙니다.
 
-### Follow JOONS MCP Probe
+### Probe an MCP server
 
-Probe는 개발 중이며 0.1.0 Preview가 예정되어 있습니다. 도구를 호출하지 않는 읽기 전용 MCP 프로토콜 및 도구 계약 진단용으로 설계되었습니다. 저장소는 Preview와 함께 공개됩니다.
+GitHub에서 공개 프리뷰를 설치합니다 (npm에는 게시되지 않았습니다):
+
+```sh
+npm install -g github:dbdefault/joons-mcp-probe#v0.1.0
+```
+
+Probe는 stdio 또는 Streamable HTTP를 통해 도구 호출 없이 MCP 서버를 검사합니다. CLI 사용법은 [저장소](https://github.com/dbdefault/joons-mcp-probe)를 참고하세요.
 
 ## Choosing a product
 
@@ -102,7 +108,7 @@ Probe는 개발 중이며 0.1.0 Preview가 예정되어 있습니다. 도구를 
 2. 단일 머신용 신뢰성 기능이 필요하다면 JOONS Agent Guard부터 살펴보세요.
 3. 작업을 워커에게 할당하려면 JOONS Allocator부터 살펴보세요.
 4. MCP 구현 패턴을 학습하려면 JOONS MCP Toolkit을 살펴보세요.
-5. 프로토콜과 도구 계약 진단이 필요하다면 JOONS MCP Probe의 개발을 확인하세요.
+5. 프로토콜과 도구 계약 진단이 필요하다면 JOONS MCP Probe를 사용하세요.
 
 라이브러리는 CORE 없이 사용할 수 있습니다. 범위와 제한은 [제품 비교](docs/PROJECTS.md)를 참고하세요.
 
@@ -135,7 +141,7 @@ Probe는 개발 중이며 0.1.0 Preview가 예정되어 있습니다. 도구를 
 
 ### MCP Probe가 도구를 호출할 수 있나요?
 
-예정된 0.1.0 Preview는 읽기 전용이며 도구를 호출하지 않습니다. 선택적 허용 목록 기반 도구 호출 검사는 이후 아이디어입니다.
+v0.1.0 Preview는 읽기 전용이며 도구를 호출하지 않습니다. 선택적 허용 목록 기반 도구 호출 검사는 이후 아이디어입니다.
 
 ## Contributing
 
