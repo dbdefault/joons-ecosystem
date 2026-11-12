@@ -2,7 +2,7 @@
 
 ## Names
 
-Write JOONS in uppercase. Use the complete product names on first mention: JOONS CORE, JOONS Agent Guard, JOONS Allocator, JOONS MCP Toolkit, JOONS MCP Probe, JOONS MCP Diff, JOONS MCP Policy Gate and JOONS MCP Mock Server. English is the primary documentation language; Korean documentation mirrors it. Use an emoji-free, text-first style.
+Write JOONS in uppercase. Use the complete product names on first mention: JOONS CORE, JOONS Agent Guard, JOONS Allocator, JOONS MCP Toolkit, JOONS MCP Probe, JOONS MCP Diff, JOONS MCP Policy Gate, JOONS MCP Mock Server and JOONS MCP Contract Test Runner. English is the primary documentation language; Korean documentation mirrors it. Use an emoji-free, text-first style.
 
 Slogan: MCP-Based AI Infrastructure Ecosystem
 
@@ -18,7 +18,7 @@ Official description: JOONS is an MCP-centered AI infrastructure ecosystem that 
 | Private | `lightgrey` | Private product |
 | Planned | `blue` | Planned work |
 
-Status labels describe availability, not a guarantee of integration. CORE is private and in operation; Guard and Allocator are public v0.1.0 previews; Toolkit is an early public reference implementation; Probe, Diff, Policy Gate and Mock Server are public v0.1.0 previews.
+Status labels describe availability, not a guarantee of integration. CORE is private and in operation; Guard and Allocator are public v0.1.0 previews; Toolkit is an early public reference implementation; Probe, Diff, Policy Gate, Mock Server and Contract Test Runner are public v0.1.0 previews.
 
 ## Badge snippets
 
@@ -31,6 +31,7 @@ Status labels describe availability, not a guarantee of integration. CORE is pri
 ![MCP Diff Preview](https://img.shields.io/badge/MCP%20Diff-Preview-orange?labelColor=4F46E5)
 ![MCP Policy Gate Preview](https://img.shields.io/badge/MCP%20Policy%20Gate-Preview-orange?labelColor=4F46E5)
 ![MCP Mock Server Preview](https://img.shields.io/badge/MCP%20Mock%20Server-Preview-orange?labelColor=4F46E5)
+![MCP Contract Test Runner Preview](https://img.shields.io/badge/MCP%20Contract%20Test%20Runner-Preview-orange?labelColor=4F46E5)
 ```
 
 ## Mermaid class definitions

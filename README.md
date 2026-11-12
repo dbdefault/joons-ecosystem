@@ -12,6 +12,7 @@ JOONS is an MCP-centered AI infrastructure ecosystem that connects AI agents wit
 ![MCP Diff Preview](https://img.shields.io/badge/MCP%20Diff-Preview-orange?labelColor=4F46E5)
 ![MCP Policy Gate Preview](https://img.shields.io/badge/MCP%20Policy%20Gate-Preview-orange?labelColor=4F46E5)
 ![MCP Mock Server Preview](https://img.shields.io/badge/MCP%20Mock%20Server-Preview-orange?labelColor=4F46E5)
+![MCP Contract Test Runner Preview](https://img.shields.io/badge/MCP%20Contract%20Test%20Runner-Preview-orange?labelColor=4F46E5)
 
 [한국어](README.ko.md)
 
@@ -38,6 +39,7 @@ flowchart TD
     Diff["JOONS MCP Diff Preview"]
     PolicyGate["JOONS MCP Policy Gate Preview"]
     MockServer["JOONS MCP Mock Server Preview"]
+    ContractRunner["JOONS MCP Contract Test Runner Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -45,7 +47,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff,PolicyGate,MockServer preview
+    class Probe,Diff,PolicyGate,MockServer,ContractRunner preview
 ```
 
 This conceptual map does not imply that independent products are embedded in CORE. Allocator's optional Guard hooks are the only implemented library-to-library integration.
@@ -60,6 +62,7 @@ This conceptual map does not imply that independent products are embedded in COR
 | JOONS MCP Diff | What changed, and will it break my agents? | MCP Development Tools: contract comparison | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-diff) |
 | JOONS MCP Policy Gate | Does this tool list follow our rules? | MCP Development Tools: contract policy checks | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-policy-gate) |
 | JOONS MCP Mock Server | Can I test my agent against this server without touching anything real? | MCP Development Tools: mock server | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-mock-server) |
+| JOONS MCP Contract Test Runner | Do my tools still behave the way my agents expect? | MCP Development Tools: contract testing | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-contract-runner) |
 
 ## What you can do today
 
@@ -147,6 +150,31 @@ Mock Server reads a `joons-mcp-diff` schemaVersion 1 snapshot and an optional JS
 
 This is a MOCK: no real actions are performed. It makes no network requests, changes no files except the optional report, starts no child processes, and never forwards to a real server or executes snapshot or fixture content. Probe diagnoses a real server; Diff compares two snapshots; Policy Gate checks one snapshot against a policy; Mock Server runs a mock server from one snapshot. Mock Server is installed and run independently and needs none of the others at runtime; Diff is an easy way to make a snapshot. CORE does not import or ship it.
 
+### Run behavioral contract tests
+
+JOONS MCP Contract Test Runner: Define, execute, and validate behavioral contracts for MCP tools. Install the [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-contract-runner/releases/tag/v0.1.0) together with the Mock Server it runs against:
+
+```sh
+npm install -g github:dbdefault/joons-mcp-contract-runner#v0.1.0
+npm install -g github:dbdefault/joons-mcp-mock-server#v0.1.0
+```
+
+Contract Test Runner reads a strictly validated JSON test suite. Each test names a tool, its arguments and the expected outcome, with assertions for outcome, isError, text, contentCount, structuredContent (equals or subset match), fields, maxDurationMs, errorCode and errorMessageContains. Captures pass values from a passing test to later tests; per-test and total timeouts, concurrency, PASS/FAIL/SKIP results, terminal, JSON and Markdown reports and CI exit codes are included. Captured values and secret-looking keys are redacted in reports. It uses JavaScript ESM, Node.js 20+, the official MCP SDK and Apache-2.0; it is not on npm.
+
+In 0.1.0 the only target is a JOONS MCP Mock Server: the runner starts it itself and checks that it is a JOONS MCP Mock Server before any tool call, so no real tool is called. Real-server execution is planned with explicit opt-in and an exact per-tool allowlist. Probe diagnoses a real server; Diff compares two snapshots; Policy Gate checks one snapshot against a policy; Mock Server runs a mock server; Contract Test Runner runs behavioral contract tests against the mock. It is installed and run independently and has no runtime dependency on the Mock Server package; it uses the Mock Server only as its test target. CORE does not import or ship it.
+
+### Mock Server and Contract Test Runner together
+
+1. Make a snapshot of your server's tools with JOONS MCP Diff (`joons-mcp-diff snapshot ...`).
+2. Write fixtures for the Mock Server and a test suite for the runner.
+3. Run the suite:
+
+```sh
+joons-mcp-contract-test run shop.suite.json --snapshot snapshot.json --fixtures fixtures.json
+```
+
+The runner starts the Mock Server itself, checks that it is a JOONS MCP Mock Server before any tool call, runs every test and reports PASS or FAIL. No real tool is called.
+
 ## Choosing a product
 
 1. Need the private MCP server and its tool execution? Consider JOONS CORE.
@@ -157,6 +185,7 @@ This is a MOCK: no real actions are performed. It makes no network requests, cha
 6. Need to detect contract drift and compatibility risks? Use JOONS MCP Diff.
 7. Need to check whether a tool list follows your rules? Use JOONS MCP Policy Gate.
 8. Need to test an agent without touching anything real? Use JOONS MCP Mock Server.
+9. Need to check that your tools still behave the way your agents expect? Use JOONS MCP Contract Test Runner.
 
 The libraries can be used without CORE. See the [project comparison](docs/PROJECTS.md) for scope and limitations.
 
@@ -181,7 +210,7 @@ No. JOONS Agent Guard and JOONS Allocator are independent libraries. Allocator's
 
 ### Are the public products bundled into CORE?
 
-No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, or Mock Server today. Future integration is a plan.
+No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, or Contract Test Runner today. Future integration is a plan.
 
 ### Is MCP Toolkit the production CORE server?
 

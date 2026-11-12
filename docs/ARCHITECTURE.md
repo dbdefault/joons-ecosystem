@@ -8,7 +8,7 @@ This is a conceptual architecture. It shows boundaries between public products a
 2. MCP Interface Layer - MCP protocol over stdio / Streamable HTTP
 3. JOONS CORE MCP - private MCP server (tool registry, transports, target selection)
 4. Independent Reliability Libraries - Agent Guard, Allocator (usable without CORE)
-5. MCP Development & Diagnostic Tools - MCP Toolkit, MCP Probe, MCP Diff, MCP Policy Gate, MCP Mock Server
+5. MCP Development & Diagnostic Tools - MCP Toolkit, MCP Probe, MCP Diff, MCP Policy Gate, MCP Mock Server, MCP Contract Test Runner
 6. External Tools and Data Sources - computers, phones, files, knowledge bases, web, Git, external MCP servers
 
 ```mermaid
@@ -21,6 +21,7 @@ flowchart TD
     Diff["JOONS MCP Diff Preview"]
     PolicyGate["JOONS MCP Policy Gate Preview"]
     MockServer["JOONS MCP Mock Server Preview"]
+    ContractRunner["JOONS MCP Contract Test Runner Preview"]
     F["External Tools and Data Sources"]
     A --> B --> C --> F
     D ~~~ E
@@ -29,6 +30,7 @@ flowchart TD
     E --- Diff
     E --- PolicyGate
     E --- MockServer
+    E --- ContractRunner
     classDef interface fill:#4F46E5,stroke:#4F46E5,color:#fff
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -37,7 +39,7 @@ flowchart TD
     class C private
     class D preview
     class E mixed
-    class Diff,PolicyGate,MockServer preview
+    class Diff,PolicyGate,MockServer,ContractRunner preview
 ```
 
 ## Public and private boundary
@@ -52,6 +54,7 @@ flowchart LR
         Diff["JOONS MCP Diff Preview"]
         PolicyGate["JOONS MCP Policy Gate Preview"]
         MockServer["JOONS MCP Mock Server Preview"]
+        ContractRunner["JOONS MCP Contract Test Runner Preview"]
         Allocator -. "optional hooks" .-> Guard
     end
     subgraph Private["Private operating system"]
@@ -63,7 +66,7 @@ flowchart LR
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff,PolicyGate,MockServer preview
+    class Probe,Diff,PolicyGate,MockServer,ContractRunner preview
     class CORE private
 ```
 
@@ -95,6 +98,8 @@ JOONS MCP Policy Gate is a public v0.1.0 Preview for static policy checks of one
 
 JOONS MCP Mock Server is a public v0.1.0 Preview that serves a MOCK MCP server over stdio from one Diff-format schemaVersion 1 snapshot and optional JSON fixtures. Fixture responses support defaults, argument matches and named scenarios. It performs no real actions: no network, file changes except an optional report, child processes, forwarding, or execution of snapshot or fixture content. Probe diagnoses a real server; Diff compares two snapshots; Policy Gate checks one snapshot against a policy; Mock Server runs a mock server from one snapshot. Mock Server is installed and run independently, needs none of the others at runtime, and Diff is an easy way to make a snapshot. CORE does not import or ship it.
 
+JOONS MCP Contract Test Runner is a public v0.1.0 Preview that runs strictly validated JSON behavioral contract test suites against a JOONS MCP Mock Server it starts itself, using the official MCP SDK client. It checks that the target is a JOONS MCP Mock Server before any tool call, so no real tool is called; real-server execution is planned with explicit opt-in and an exact per-tool allowlist. Reports redact captured values and secret-looking keys. It is installed and run independently and has no runtime dependency on the Mock Server package. CORE does not import or ship it.
+
 ### 6. External Tools and Data Sources
 
 The conceptual external layer includes computers, phones, files, knowledge bases, web, Git and external MCP servers. CORE can connect to these categories; the diagram does not imply that any particular source is available in a given environment.
@@ -117,14 +122,15 @@ flowchart TD
     Diff["JOONS MCP Diff Preview (independent)"]
     PolicyGate["JOONS MCP Policy Gate Preview (independent)"]
     MockServer["JOONS MCP Mock Server Preview (independent)"]
+    ContractRunner["JOONS MCP Contract Test Runner Preview (independent)"]
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
-    class Diff,PolicyGate,MockServer preview
+    class Diff,PolicyGate,MockServer,ContractRunner preview
 ```
 
 ## Trust and product boundaries
 
 - CORE is private; its source is not published. Toolkit does not expose or require it.
-- Guard, Allocator, Toolkit, Probe, Diff, Policy Gate and Mock Server are not bundled into or shipped with CORE, and CORE does not import them.
+- Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server and Contract Test Runner are not bundled into or shipped with CORE, and CORE does not import them.
 - Guard and Allocator operate on a single machine. Their storage and limits must not be read as a distributed coordination guarantee.
 - Guard locks are advisory and never expire on their own. Allocator has no lease expiry today.
 - Probe's intended read-only boundary excludes tool calls in 0.1.0. Later opt-in checks remain ideas.
