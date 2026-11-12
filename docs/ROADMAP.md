@@ -1,7 +1,7 @@
 # Roadmap
 
 - [x] Phase 1 - Brand and portfolio: this ecosystem repository; Agent Guard 0.1.0 and Allocator 0.1.0 previews.
-- [x] Phase 2 - MCP developer tools: MCP Probe 0.1.0 Preview, MCP Diff 0.1.0 Preview and MCP Policy Gate 0.1.0 Preview. Later Probe ideas include opt-in, allow-listed tool-call checks; resources and prompts inspection; CI-friendly baselines and diffing; and an optional MCP adapter. Diff separately provides snapshot comparison and CI thresholds today. Policy Gate independently checks one snapshot against a written policy.
+- [x] Phase 2 - MCP developer tools: MCP Probe 0.1.0 Preview, MCP Diff 0.1.0 Preview, MCP Policy Gate 0.1.0 Preview and MCP Mock Server 0.1.0 Preview. Later Probe ideas include opt-in, allow-listed tool-call checks; resources and prompts inspection; CI-friendly baselines and diffing; and an optional MCP adapter. Diff separately provides snapshot comparison and CI thresholds today. Policy Gate independently checks one snapshot against a written policy. Mock Server independently runs a mock server from one snapshot.
 - [ ] Phase 3 - Independent MCP extension modules: extract general-purpose tools that CORE needs as standalone MCP packages.
 - [ ] Phase 4 - Ecosystem integration: connect Guard, Allocator and Probe to CORE where useful.
 

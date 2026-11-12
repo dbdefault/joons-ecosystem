@@ -11,6 +11,7 @@ JOONS는 AI 에이전트를 도구, 컴퓨터, 지식, 신뢰할 수 있는 실�
 ![MCP Probe Preview](https://img.shields.io/badge/MCP%20Probe-Preview-orange?labelColor=4F46E5)
 ![MCP Diff Preview](https://img.shields.io/badge/MCP%20Diff-Preview-orange?labelColor=4F46E5)
 ![MCP Policy Gate Preview](https://img.shields.io/badge/MCP%20Policy%20Gate-Preview-orange?labelColor=4F46E5)
+![MCP Mock Server Preview](https://img.shields.io/badge/MCP%20Mock%20Server-Preview-orange?labelColor=4F46E5)
 
 [English](README.md)
 
@@ -36,6 +37,7 @@ flowchart TD
     Probe["JOONS MCP Probe Preview"]
     Diff["JOONS MCP Diff Preview"]
     PolicyGate["JOONS MCP Policy Gate Preview"]
+    MockServer["JOONS MCP Mock Server Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -43,7 +45,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff,PolicyGate preview
+    class Probe,Diff,PolicyGate,MockServer preview
 ```
 
 이 개념도는 독립 제품이 CORE에 내장되어 있다는 뜻이 아닙니다. 현재 구현된 라이브러리 간 연동은 Allocator의 선택적 Guard 훅뿐입니다.
@@ -57,6 +59,7 @@ flowchart TD
 | JOONS MCP Probe | MCP 서버가 올바르게 동작하나요? | 진단과 검증 | Public, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-probe) |
 | JOONS MCP Diff | 무엇이 바뀌었고 에이전트에 문제가 생길까요? | MCP 개발 도구: 계약 비교 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-diff) |
 | JOONS MCP Policy Gate | 이 도구 목록이 우리 규칙을 따르나요? | MCP 개발 도구: 계약 정책 검사 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-policy-gate) |
+| JOONS MCP Mock Server | 실제 대상을 건드리지 않고 이 서버에 대해 에이전트를 테스트할 수 있나요? | MCP 개발 도구: 모의 서버 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-mock-server) |
 
 ## What you can do today
 
@@ -132,6 +135,18 @@ Policy Gate는 `joons-mcp-diff` schemaVersion 1 스냅샷과 버전이 지정된
 
 Probe는 서버 하나의 현재 동작을 검사하고 Diff는 두 시점을 비교하며 Policy Gate는 스냅샷 하나를 작성된 정책과 대조합니다. Policy Gate는 독립적으로 설치하고 실행하며 실행 시 Probe나 Diff가 필요하지 않습니다. Diff는 스냅샷을 쉽게 만드는 방법입니다. 이 정적 검사는 실행 중 도구 호출을 차단하거나 실제 위험을 판정하지 않습니다. 위험 클래스는 사용자가 정한 분류명입니다.
 
+### 모의 서버로 에이전트 테스트하기
+
+JOONS MCP Mock Server는 도구 스냅샷으로 실제와 유사한 모의 MCP 서버를 만들어 에이전트를 안전하게 개발하고 테스트합니다. [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-mock-server/releases/tag/v0.1.0)를 설치합니다.
+
+```sh
+npm install -g github:dbdefault/joons-mcp-mock-server#v0.1.0
+```
+
+Mock Server는 `joons-mcp-diff` schemaVersion 1 스냅샷과 선택적인 JSON 픽스처 파일을 읽어 표준 입출력으로 모의 MCP 서버를 제공합니다. initialize, ping, tools/list, tools/call을 지원하며 도구 결과는 픽스처의 기본 응답, 인자 일치 항목, 이름이 있는 시나리오에서 나옵니다. 내장 시나리오는 default, empty, error, slow, server-error이며 `--fail-tool`과 JSON Schema 일부를 이용한 인자 검증도 제공합니다. 호출 기록은 메모리에 보관하고 비밀 정보로 보이는 인자는 마스킹하며, JSON 보고서를 선택적으로 저장합니다. JavaScript ESM, Node.js 20+, 공식 MCP SDK, Apache-2.0을 사용하며 npm에는 게시되지 않았습니다. 0.1.0에는 Streamable HTTP, 리소스, 프롬프트가 없습니다.
+
+이 서버는 모의 서버이며 실제 작업을 수행하지 않습니다. 네트워크 요청을 하거나 실제 서버에 전달하지 않고 자식 프로세스도 시작하지 않습니다. 선택한 보고서 외에는 파일을 변경하지 않으며 스냅샷이나 픽스처의 내용을 실행하지 않습니다. Probe는 실제 서버를 진단하고, Diff는 두 스냅샷을 비교하며, Policy Gate는 스냅샷 하나를 정책과 대조하고, Mock Server는 스냅샷 하나로 모의 서버를 실행합니다. Mock Server는 독립적으로 설치하고 실행하며 실행 시 다른 제품이 필요하지 않습니다. Diff를 이용하면 스냅샷을 쉽게 만들 수 있습니다. CORE는 이를 가져오거나 함께 제공하지 않습니다.
+
 ## Choosing a product
 
 1. 비공개 MCP 서버와 도구 실행이 필요하다면 JOONS CORE를 고려하세요.
@@ -141,6 +156,7 @@ Probe는 서버 하나의 현재 동작을 검사하고 Diff는 두 시점을 �
 5. 프로토콜과 도구 계약 진단이 필요하다면 JOONS MCP Probe를 사용하세요.
 6. 계약 변경과 호환성 위험을 감지하려면 JOONS MCP Diff를 사용하세요.
 7. 도구 목록이 정한 규칙을 따르는지 확인하려면 JOONS MCP Policy Gate를 사용하세요.
+8. 실제 대상을 건드리지 않고 에이전트를 테스트하려면 JOONS MCP Mock Server를 사용하세요.
 
 라이브러리는 CORE 없이 사용할 수 있습니다. 범위와 제한은 [제품 비교](docs/PROJECTS.md)를 참고하세요.
 
@@ -165,7 +181,7 @@ Probe는 서버 하나의 현재 동작을 검사하고 Diff는 두 시점을 �
 
 ### 공개 제품이 CORE에 포함되어 있나요?
 
-아니요. 현재 CORE는 Guard, Allocator, Toolkit, Probe, Diff, Policy Gate를 가져오거나 함께 제공하지 않습니다. 향후 연동은 계획입니다.
+아니요. 현재 CORE는 Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server를 가져오거나 함께 제공하지 않습니다. 향후 연동은 계획입니다.
 
 ### MCP Toolkit이 운영용 CORE 서버인가요?
 

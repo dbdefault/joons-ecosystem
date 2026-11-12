@@ -8,7 +8,7 @@ This is a conceptual architecture. It shows boundaries between public products a
 2. MCP Interface Layer - MCP protocol over stdio / Streamable HTTP
 3. JOONS CORE MCP - private MCP server (tool registry, transports, target selection)
 4. Independent Reliability Libraries - Agent Guard, Allocator (usable without CORE)
-5. MCP Development & Diagnostic Tools - MCP Toolkit, MCP Probe, MCP Diff, MCP Policy Gate
+5. MCP Development & Diagnostic Tools - MCP Toolkit, MCP Probe, MCP Diff, MCP Policy Gate, MCP Mock Server
 6. External Tools and Data Sources - computers, phones, files, knowledge bases, web, Git, external MCP servers
 
 ```mermaid
@@ -20,6 +20,7 @@ flowchart TD
     E["MCP Development and Diagnostic Tools"]
     Diff["JOONS MCP Diff Preview"]
     PolicyGate["JOONS MCP Policy Gate Preview"]
+    MockServer["JOONS MCP Mock Server Preview"]
     F["External Tools and Data Sources"]
     A --> B --> C --> F
     D ~~~ E
@@ -27,6 +28,7 @@ flowchart TD
     E ~~~ F
     E --- Diff
     E --- PolicyGate
+    E --- MockServer
     classDef interface fill:#4F46E5,stroke:#4F46E5,color:#fff
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -35,7 +37,7 @@ flowchart TD
     class C private
     class D preview
     class E mixed
-    class Diff,PolicyGate preview
+    class Diff,PolicyGate,MockServer preview
 ```
 
 ## Public and private boundary
@@ -49,6 +51,7 @@ flowchart LR
         Probe["JOONS MCP Probe Preview"]
         Diff["JOONS MCP Diff Preview"]
         PolicyGate["JOONS MCP Policy Gate Preview"]
+        MockServer["JOONS MCP Mock Server Preview"]
         Allocator -. "optional hooks" .-> Guard
     end
     subgraph Private["Private operating system"]
@@ -60,7 +63,7 @@ flowchart LR
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff,PolicyGate preview
+    class Probe,Diff,PolicyGate,MockServer preview
     class CORE private
 ```
 
@@ -90,6 +93,8 @@ MCP Diff is a public v0.1.0 Preview that compares versioned read-only tool snaps
 
 JOONS MCP Policy Gate is a public v0.1.0 Preview for static policy checks of one schemaVersion 1 Diff-format snapshot against a versioned JSON policy. Probe inspects one server's current behaviour; Diff compares two points in time; Policy Gate checks a snapshot against written rules. Policy Gate is installed and run independently and needs neither Probe nor Diff at runtime; Diff is an easy way to make a snapshot. It does not block tool calls at runtime or determine real risk: risk classes are user labels.
 
+JOONS MCP Mock Server is a public v0.1.0 Preview that serves a MOCK MCP server over stdio from one Diff-format schemaVersion 1 snapshot and optional JSON fixtures. Fixture responses support defaults, argument matches and named scenarios. It performs no real actions: no network, file changes except an optional report, child processes, forwarding, or execution of snapshot or fixture content. Probe diagnoses a real server; Diff compares two snapshots; Policy Gate checks one snapshot against a policy; Mock Server runs a mock server from one snapshot. Mock Server is installed and run independently, needs none of the others at runtime, and Diff is an easy way to make a snapshot. CORE does not import or ship it.
+
 ### 6. External Tools and Data Sources
 
 The conceptual external layer includes computers, phones, files, knowledge bases, web, Git and external MCP servers. CORE can connect to these categories; the diagram does not imply that any particular source is available in a given environment.
@@ -111,14 +116,15 @@ flowchart TD
     Before -->|"Veto"| Stop["Allocator does not lease"]
     Diff["JOONS MCP Diff Preview (independent)"]
     PolicyGate["JOONS MCP Policy Gate Preview (independent)"]
+    MockServer["JOONS MCP Mock Server Preview (independent)"]
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
-    class Diff,PolicyGate preview
+    class Diff,PolicyGate,MockServer preview
 ```
 
 ## Trust and product boundaries
 
 - CORE is private; its source is not published. Toolkit does not expose or require it.
-- Guard, Allocator, Toolkit, Probe, Diff and Policy Gate are not bundled into or shipped with CORE, and CORE does not import them.
+- Guard, Allocator, Toolkit, Probe, Diff, Policy Gate and Mock Server are not bundled into or shipped with CORE, and CORE does not import them.
 - Guard and Allocator operate on a single machine. Their storage and limits must not be read as a distributed coordination guarantee.
 - Guard locks are advisory and never expire on their own. Allocator has no lease expiry today.
 - Probe's intended read-only boundary excludes tool calls in 0.1.0. Later opt-in checks remain ideas.

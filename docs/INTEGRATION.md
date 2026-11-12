@@ -1,6 +1,6 @@
 # Integration
 
-None of JOONS Agent Guard, JOONS Allocator, JOONS MCP Toolkit, JOONS MCP Probe, JOONS MCP Diff or JOONS MCP Policy Gate is bundled into or shipped with JOONS CORE today. CORE does not import them.
+None of JOONS Agent Guard, JOONS Allocator, JOONS MCP Toolkit, JOONS MCP Probe, JOONS MCP Diff, JOONS MCP Policy Gate or JOONS MCP Mock Server is bundled into or shipped with JOONS CORE today. CORE does not import them.
 
 | State | Integration |
 |---|---|
@@ -10,6 +10,7 @@ None of JOONS Agent Guard, JOONS Allocator, JOONS MCP Toolkit, JOONS MCP Probe, 
 | Implemented today | Public, v0.1.0 Preview: Probe is an external read-only tool for inspecting MCP servers without depending on CORE. An operator could inspect CORE in the future. |
 | Implemented today | Diff is an independent external snapshot and comparison tool; it does not need Probe and has no library integration with ecosystem products today. Probe can be used for server health and Diff in CI for contract drift. |
 | Implemented today | Policy Gate is an independent public v0.1.0 Preview for checking one schemaVersion 1 snapshot against a versioned JSON policy. It needs neither Probe nor Diff at runtime; Diff is an easy way to make a snapshot. It does not block tool calls at runtime or determine real risk; classes are user labels. |
+| Implemented today | Mock Server is an independent public v0.1.0 Preview that runs a MOCK MCP server over stdio from one schemaVersion 1 snapshot and optional JSON fixtures. It needs none of the other products at runtime; Diff is an easy way to make a snapshot. Fixture responses do not perform real actions; there are no network requests, file changes except an optional report, child processes, forwarding, or execution of snapshot or fixture content. CORE does not import or ship it. |
 
 Install the optional hooks with `pip install "joons-allocator[guard]"`. `joons_allocator.integrations.guard.GuardHooks` provides the hooks. `before_lease` can veto inside the lease transaction; `after_*` hooks run after commit.
 

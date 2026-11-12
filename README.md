@@ -11,6 +11,7 @@ JOONS is an MCP-centered AI infrastructure ecosystem that connects AI agents wit
 ![MCP Probe Preview](https://img.shields.io/badge/MCP%20Probe-Preview-orange?labelColor=4F46E5)
 ![MCP Diff Preview](https://img.shields.io/badge/MCP%20Diff-Preview-orange?labelColor=4F46E5)
 ![MCP Policy Gate Preview](https://img.shields.io/badge/MCP%20Policy%20Gate-Preview-orange?labelColor=4F46E5)
+![MCP Mock Server Preview](https://img.shields.io/badge/MCP%20Mock%20Server-Preview-orange?labelColor=4F46E5)
 
 [한국어](README.ko.md)
 
@@ -36,6 +37,7 @@ flowchart TD
     Probe["JOONS MCP Probe Preview"]
     Diff["JOONS MCP Diff Preview"]
     PolicyGate["JOONS MCP Policy Gate Preview"]
+    MockServer["JOONS MCP Mock Server Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -43,7 +45,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff,PolicyGate preview
+    class Probe,Diff,PolicyGate,MockServer preview
 ```
 
 This conceptual map does not imply that independent products are embedded in CORE. Allocator's optional Guard hooks are the only implemented library-to-library integration.
@@ -57,6 +59,7 @@ This conceptual map does not imply that independent products are embedded in COR
 | JOONS MCP Probe | Does the MCP server work correctly? | Diagnostics and validation | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-probe) |
 | JOONS MCP Diff | What changed, and will it break my agents? | MCP Development Tools: contract comparison | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-diff) |
 | JOONS MCP Policy Gate | Does this tool list follow our rules? | MCP Development Tools: contract policy checks | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-policy-gate) |
+| JOONS MCP Mock Server | Can I test my agent against this server without touching anything real? | MCP Development Tools: mock server | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-mock-server) |
 
 ## What you can do today
 
@@ -132,6 +135,18 @@ Policy Gate reads a `joons-mcp-diff` schemaVersion 1 snapshot and a versioned JS
 
 Probe inspects one server's current behaviour; Diff compares two points in time; Policy Gate checks one snapshot against a written policy. Policy Gate is installed and run independently and needs neither Probe nor Diff at runtime; Diff is an easy way to make a snapshot. This static check does not block tool calls at runtime or determine real risk: risk classes are user labels.
 
+### Test an agent with a mock server
+
+JOONS MCP Mock Server: Create realistic mock MCP servers from tool snapshots for safe agent development and testing. Install the [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-mock-server/releases/tag/v0.1.0):
+
+```sh
+npm install -g github:dbdefault/joons-mcp-mock-server#v0.1.0
+```
+
+Mock Server reads a `joons-mcp-diff` schemaVersion 1 snapshot and an optional JSON fixture file. It serves a MOCK MCP server over stdio with initialize, ping, tools/list and tools/call. Tool results come from fixture defaults, argument matches and named scenarios. Built-in scenarios are default, empty, error, slow and server-error; `--fail-tool` and argument validation of a JSON Schema subset are also available. Calls are recorded in memory with masking of secret-looking arguments, with an optional JSON report. It uses JavaScript ESM, Node.js 20+, the official MCP SDK and Apache-2.0; it is not on npm. Streamable HTTP, resources and prompts are not in 0.1.0.
+
+This is a MOCK: no real actions are performed. It makes no network requests, changes no files except the optional report, starts no child processes, and never forwards to a real server or executes snapshot or fixture content. Probe diagnoses a real server; Diff compares two snapshots; Policy Gate checks one snapshot against a policy; Mock Server runs a mock server from one snapshot. Mock Server is installed and run independently and needs none of the others at runtime; Diff is an easy way to make a snapshot. CORE does not import or ship it.
+
 ## Choosing a product
 
 1. Need the private MCP server and its tool execution? Consider JOONS CORE.
@@ -141,6 +156,7 @@ Probe inspects one server's current behaviour; Diff compares two points in time;
 5. Need protocol and tool-contract diagnostics? Use JOONS MCP Probe.
 6. Need to detect contract drift and compatibility risks? Use JOONS MCP Diff.
 7. Need to check whether a tool list follows your rules? Use JOONS MCP Policy Gate.
+8. Need to test an agent without touching anything real? Use JOONS MCP Mock Server.
 
 The libraries can be used without CORE. See the [project comparison](docs/PROJECTS.md) for scope and limitations.
 
@@ -165,7 +181,7 @@ No. JOONS Agent Guard and JOONS Allocator are independent libraries. Allocator's
 
 ### Are the public products bundled into CORE?
 
-No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, or Policy Gate today. Future integration is a plan.
+No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, or Mock Server today. Future integration is a plan.
 
 ### Is MCP Toolkit the production CORE server?
 
