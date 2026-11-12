@@ -10,6 +10,7 @@
 | JOONS MCP Toolkit | JavaScript | Not specified | In-memory coordinator; durable request ledger | MIT | Public reference implementation, early |
 | JOONS MCP Probe | JavaScript ESM | Node.js 20+ | Not specified | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Diff | JavaScript ESM | Node.js 20+ | Versioned JSON snapshots | Apache-2.0 | Public, v0.1.0 Preview |
+| JOONS MCP Policy Gate | JavaScript ESM | Node.js 20+ | Versioned JSON policy and snapshot inputs | Apache-2.0 | Public, v0.1.0 Preview |
 
 ## JOONS CORE
 
@@ -51,5 +52,13 @@
 - Capabilities: Read-only `tools/list` snapshots over stdio or Streamable HTTP, saved as versioned canonical JSON; compare snapshots with BREAKING, NON_BREAKING and UNKNOWN classifications, conservative UNKNOWN for unprovable changes, and rename hints only. Terminal, Markdown and JSON reports, `--fail-on` for CI and exit codes 0–4 are available. Snapshots never store commands, paths, URLs, headers, environment values or tokens.
 - Install: `npm install -g github:dbdefault/joons-mcp-diff#v0.1.0`.
 - Boundary: Probe inspects one server's current protocol behaviour and tool contract. Diff compares the tool contract at two points in time; it does not need Probe. Use Probe for health and Diff in CI for contract drift. Diff is not bundled into CORE and has no library integration with the other ecosystem products today.
+
+## JOONS MCP Policy Gate
+
+- Category: MCP Development Tools: contract policy checks. Core question: Does this tool list follow our rules?
+- Status: Public, [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-policy-gate/releases/tag/v0.1.0), not on npm. Apache-2.0, JavaScript ESM, Node.js 20+, zero runtime dependencies. [Repository](https://github.com/dbdefault/joons-mcp-policy-gate).
+- Capabilities: Static policy checks for MCP tool contracts, built for CI. Reads a `joons-mcp-diff` schemaVersion 1 snapshot and a versioned JSON policy. Checks allow/deny name globs, required tools, max tool count, description and input-schema requirements, required annotation keys, and user-defined risk classes with dated approvals. Deny wins and cannot be lowered. Strict validation rejects unknown keys, conflicts and policies that can never produce a finding. Outputs PASS/WARN/FAIL in terminal, JSON and Markdown, offers `--fail-on failure|warning|none`, exit codes 0-4 and `validate-policy`.
+- Install: `npm install -g github:dbdefault/joons-mcp-policy-gate#v0.1.0`.
+- Boundary: Probe inspects one server's current behaviour; Diff compares two points in time; Policy Gate checks one snapshot against a written policy. Policy Gate is installed and run independently, needs neither Probe nor Diff at runtime, and Diff is an easy way to make a snapshot. It does not block tool calls at runtime or determine real risk; risk classes are user labels. CORE does not import or ship it.
 
 [Back to README](../README.md)

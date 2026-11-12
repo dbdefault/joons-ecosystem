@@ -10,6 +10,7 @@ JOONS is an MCP-centered AI infrastructure ecosystem that connects AI agents wit
 ![MCP Toolkit Public](https://img.shields.io/badge/MCP%20Toolkit-Public-brightgreen?labelColor=4F46E5)
 ![MCP Probe Preview](https://img.shields.io/badge/MCP%20Probe-Preview-orange?labelColor=4F46E5)
 ![MCP Diff Preview](https://img.shields.io/badge/MCP%20Diff-Preview-orange?labelColor=4F46E5)
+![MCP Policy Gate Preview](https://img.shields.io/badge/MCP%20Policy%20Gate-Preview-orange?labelColor=4F46E5)
 
 [한국어](README.ko.md)
 
@@ -34,6 +35,7 @@ flowchart TD
     Toolkit["JOONS MCP Toolkit"]
     Probe["JOONS MCP Probe Preview"]
     Diff["JOONS MCP Diff Preview"]
+    PolicyGate["JOONS MCP Policy Gate Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -41,7 +43,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff preview
+    class Probe,Diff,PolicyGate preview
 ```
 
 This conceptual map does not imply that independent products are embedded in CORE. Allocator's optional Guard hooks are the only implemented library-to-library integration.
@@ -54,6 +56,7 @@ This conceptual map does not imply that independent products are embedded in COR
 | JOONS MCP Toolkit | How should we build it? | Development reference | Public reference implementation, early | [Repository](https://github.com/dbdefault/joons-mcp-toolkit) |
 | JOONS MCP Probe | Does the MCP server work correctly? | Diagnostics and validation | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-probe) |
 | JOONS MCP Diff | What changed, and will it break my agents? | MCP Development Tools: contract comparison | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-diff) |
+| JOONS MCP Policy Gate | Does this tool list follow our rules? | MCP Development Tools: contract policy checks | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-policy-gate) |
 
 ## What you can do today
 
@@ -117,6 +120,18 @@ Diff captures read-only `tools/list` snapshots over stdio or Streamable HTTP as 
 
 Probe inspects one MCP server's current protocol behaviour and tool contract; Diff compares the tool contract at two points in time. They are independent and complementary: Diff does not need Probe. For example, run Probe for health and Diff in CI for contract drift.
 
+### Check a tool list against a policy
+
+JOONS MCP Policy Gate: Static policy checks for MCP tool contracts, built for CI. Install the [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-policy-gate/releases/tag/v0.1.0):
+
+```sh
+npm install -g github:dbdefault/joons-mcp-policy-gate#v0.1.0
+```
+
+Policy Gate reads a `joons-mcp-diff` schemaVersion 1 snapshot and a versioned JSON policy. It checks allow and deny name globs, required tools, maximum tool count, descriptions, input schemas, required annotation keys, and user-defined risk classes with dated approvals. Deny wins and its level cannot be lowered by an allow violation. Strict validation rejects unknown keys, conflicts and policies that can never produce a finding. It provides PASS/WARN/FAIL, terminal, JSON and Markdown reports, `--fail-on failure|warning|none`, exit codes 0-4, and a `validate-policy` command. It uses JavaScript ESM, Node.js 20+, zero runtime dependencies and Apache-2.0; it is not on npm.
+
+Probe inspects one server's current behaviour; Diff compares two points in time; Policy Gate checks one snapshot against a written policy. Policy Gate is installed and run independently and needs neither Probe nor Diff at runtime; Diff is an easy way to make a snapshot. This static check does not block tool calls at runtime or determine real risk: risk classes are user labels.
+
 ## Choosing a product
 
 1. Need the private MCP server and its tool execution? Consider JOONS CORE.
@@ -125,6 +140,7 @@ Probe inspects one MCP server's current protocol behaviour and tool contract; Di
 4. Need MCP implementation patterns to study? Explore JOONS MCP Toolkit.
 5. Need protocol and tool-contract diagnostics? Use JOONS MCP Probe.
 6. Need to detect contract drift and compatibility risks? Use JOONS MCP Diff.
+7. Need to check whether a tool list follows your rules? Use JOONS MCP Policy Gate.
 
 The libraries can be used without CORE. See the [project comparison](docs/PROJECTS.md) for scope and limitations.
 
@@ -149,7 +165,7 @@ No. JOONS Agent Guard and JOONS Allocator are independent libraries. Allocator's
 
 ### Are the public products bundled into CORE?
 
-No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, or Diff today. Future integration is a plan.
+No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, or Policy Gate today. Future integration is a plan.
 
 ### Is MCP Toolkit the production CORE server?
 

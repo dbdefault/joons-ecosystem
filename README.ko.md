@@ -10,6 +10,7 @@ JOONS는 AI 에이전트를 도구, 컴퓨터, 지식, 신뢰할 수 있는 실�
 ![MCP Toolkit Public](https://img.shields.io/badge/MCP%20Toolkit-Public-brightgreen?labelColor=4F46E5)
 ![MCP Probe Preview](https://img.shields.io/badge/MCP%20Probe-Preview-orange?labelColor=4F46E5)
 ![MCP Diff Preview](https://img.shields.io/badge/MCP%20Diff-Preview-orange?labelColor=4F46E5)
+![MCP Policy Gate Preview](https://img.shields.io/badge/MCP%20Policy%20Gate-Preview-orange?labelColor=4F46E5)
 
 [English](README.md)
 
@@ -34,6 +35,7 @@ flowchart TD
     Toolkit["JOONS MCP Toolkit"]
     Probe["JOONS MCP Probe Preview"]
     Diff["JOONS MCP Diff Preview"]
+    PolicyGate["JOONS MCP Policy Gate Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -41,7 +43,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff preview
+    class Probe,Diff,PolicyGate preview
 ```
 
 이 개념도는 독립 제품이 CORE에 내장되어 있다는 뜻이 아닙니다. 현재 구현된 라이브러리 간 연동은 Allocator의 선택적 Guard 훅뿐입니다.
@@ -54,6 +56,7 @@ flowchart TD
 | JOONS MCP Toolkit | 어떻게 만들어야 하나요? | 개발 참조 자료 | 공개 참조 구현, 초기 단계 | [저장소](https://github.com/dbdefault/joons-mcp-toolkit) |
 | JOONS MCP Probe | MCP 서버가 올바르게 동작하나요? | 진단과 검증 | Public, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-probe) |
 | JOONS MCP Diff | 무엇이 바뀌었고 에이전트에 문제가 생길까요? | MCP 개발 도구: 계약 비교 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-diff) |
+| JOONS MCP Policy Gate | 이 도구 목록이 우리 규칙을 따르나요? | MCP 개발 도구: 계약 정책 검사 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-policy-gate) |
 
 ## What you can do today
 
@@ -117,6 +120,18 @@ Diff는 stdio 또는 Streamable HTTP에서 읽기 전용 `tools/list`로 버전�
 
 Probe는 MCP 서버 하나의 현재 프로토콜 동작과 도구 계약을 검사하고 Diff는 두 시점의 도구 계약을 비교합니다. 두 제품은 독립적이고 상호 보완적이며 Diff는 Probe가 필요하지 않습니다. 예를 들어 Probe로 상태를 확인하고 Diff를 CI에서 사용해 계약 변경을 감지할 수 있습니다.
 
+### 정책에 따라 도구 목록 검사하기
+
+JOONS MCP Policy Gate는 CI를 위한 MCP 도구 계약 정적 정책 검사기입니다. [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-policy-gate/releases/tag/v0.1.0)를 설치합니다.
+
+```sh
+npm install -g github:dbdefault/joons-mcp-policy-gate#v0.1.0
+```
+
+Policy Gate는 `joons-mcp-diff` schemaVersion 1 스냅샷과 버전이 지정된 JSON 정책을 읽습니다. 이름 허용 및 거부 glob, 필수 도구, 최대 도구 수, 설명과 입력 스키마 요건, 필수 주석 키, 만료일이 있는 승인을 사용하는 사용자 정의 위험 클래스를 검사합니다. 거부가 우선하며 허용 규칙과 충돌해도 거부 결과의 수준은 낮아지지 않습니다. 엄격한 정책 검증은 알 수 없는 키, 충돌, 어떤 결과도 만들어 낼 수 없는 정책을 거부합니다. PASS/WARN/FAIL 판정, 터미널·JSON·Markdown 보고서, `--fail-on failure|warning|none`, 종료 코드 0-4, `validate-policy` 명령을 제공합니다. JavaScript ESM, Node.js 20+, 런타임 의존성 0개, Apache-2.0을 사용하며 npm에는 게시되지 않았습니다.
+
+Probe는 서버 하나의 현재 동작을 검사하고 Diff는 두 시점을 비교하며 Policy Gate는 스냅샷 하나를 작성된 정책과 대조합니다. Policy Gate는 독립적으로 설치하고 실행하며 실행 시 Probe나 Diff가 필요하지 않습니다. Diff는 스냅샷을 쉽게 만드는 방법입니다. 이 정적 검사는 실행 중 도구 호출을 차단하거나 실제 위험을 판정하지 않습니다. 위험 클래스는 사용자가 정한 분류명입니다.
+
 ## Choosing a product
 
 1. 비공개 MCP 서버와 도구 실행이 필요하다면 JOONS CORE를 고려하세요.
@@ -125,6 +140,7 @@ Probe는 MCP 서버 하나의 현재 프로토콜 동작과 도구 계약을 검
 4. MCP 구현 패턴을 학습하려면 JOONS MCP Toolkit을 살펴보세요.
 5. 프로토콜과 도구 계약 진단이 필요하다면 JOONS MCP Probe를 사용하세요.
 6. 계약 변경과 호환성 위험을 감지하려면 JOONS MCP Diff를 사용하세요.
+7. 도구 목록이 정한 규칙을 따르는지 확인하려면 JOONS MCP Policy Gate를 사용하세요.
 
 라이브러리는 CORE 없이 사용할 수 있습니다. 범위와 제한은 [제품 비교](docs/PROJECTS.md)를 참고하세요.
 
@@ -149,7 +165,7 @@ Probe는 MCP 서버 하나의 현재 프로토콜 동작과 도구 계약을 검
 
 ### 공개 제품이 CORE에 포함되어 있나요?
 
-아니요. 현재 CORE는 Guard, Allocator, Toolkit, Probe, Diff를 가져오거나 함께 제공하지 않습니다. 향후 연동은 계획입니다.
+아니요. 현재 CORE는 Guard, Allocator, Toolkit, Probe, Diff, Policy Gate를 가져오거나 함께 제공하지 않습니다. 향후 연동은 계획입니다.
 
 ### MCP Toolkit이 운영용 CORE 서버인가요?
 
