@@ -9,6 +9,7 @@ JOONS is an MCP-centered AI infrastructure ecosystem that connects AI agents wit
 ![Allocator Preview](https://img.shields.io/badge/Allocator-Preview-orange?labelColor=4F46E5)
 ![MCP Toolkit Public](https://img.shields.io/badge/MCP%20Toolkit-Public-brightgreen?labelColor=4F46E5)
 ![MCP Probe Preview](https://img.shields.io/badge/MCP%20Probe-Preview-orange?labelColor=4F46E5)
+![MCP Diff Preview](https://img.shields.io/badge/MCP%20Diff-Preview-orange?labelColor=4F46E5)
 
 [한국어](README.ko.md)
 
@@ -32,6 +33,7 @@ flowchart TD
     Allocator["JOONS Allocator"] -. "optional hooks" .-> Guard["JOONS Agent Guard"]
     Toolkit["JOONS MCP Toolkit"]
     Probe["JOONS MCP Probe Preview"]
+    Diff["JOONS MCP Diff Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -39,7 +41,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe preview
+    class Probe,Diff preview
 ```
 
 This conceptual map does not imply that independent products are embedded in CORE. Allocator's optional Guard hooks are the only implemented library-to-library integration.
@@ -51,6 +53,7 @@ This conceptual map does not imply that independent products are embedded in COR
 | JOONS Allocator | Who does which job? | Task allocation | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-allocator) |
 | JOONS MCP Toolkit | How should we build it? | Development reference | Public reference implementation, early | [Repository](https://github.com/dbdefault/joons-mcp-toolkit) |
 | JOONS MCP Probe | Does the MCP server work correctly? | Diagnostics and validation | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-probe) |
+| JOONS MCP Diff | What changed, and will it break my agents? | MCP Development Tools: contract comparison | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-diff) |
 
 ## What you can do today
 
@@ -102,6 +105,18 @@ npm install -g github:dbdefault/joons-mcp-probe#v0.1.0
 
 Probe inspects MCP servers over stdio or Streamable HTTP without calling tools. See the [repository](https://github.com/dbdefault/joons-mcp-probe) for CLI usage.
 
+### Compare MCP tool contracts
+
+JOONS MCP Diff: Detect MCP tool and schema changes before they break your AI agents. Install the [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-diff/releases/tag/v0.1.0):
+
+```sh
+npm install -g github:dbdefault/joons-mcp-diff#v0.1.0
+```
+
+Diff captures read-only `tools/list` snapshots over stdio or Streamable HTTP as versioned canonical JSON, then compares two points in time. Snapshots never store commands, paths, URLs, headers, environment values or tokens. Changes are BREAKING, NON_BREAKING or UNKNOWN; unprovable changes are UNKNOWN and rename hints are suggestions only. It provides terminal, Markdown and JSON reports, `--fail-on` for CI, and exit codes 0–4. It is Apache-2.0, uses JavaScript ESM, Node.js 20+ and the official MCP SDK.
+
+Probe inspects one MCP server's current protocol behaviour and tool contract; Diff compares the tool contract at two points in time. They are independent and complementary: Diff does not need Probe. For example, run Probe for health and Diff in CI for contract drift.
+
 ## Choosing a product
 
 1. Need the private MCP server and its tool execution? Consider JOONS CORE.
@@ -109,6 +124,7 @@ Probe inspects MCP servers over stdio or Streamable HTTP without calling tools. 
 3. Need to allocate tasks to workers? Start with JOONS Allocator.
 4. Need MCP implementation patterns to study? Explore JOONS MCP Toolkit.
 5. Need protocol and tool-contract diagnostics? Use JOONS MCP Probe.
+6. Need to detect contract drift and compatibility risks? Use JOONS MCP Diff.
 
 The libraries can be used without CORE. See the [project comparison](docs/PROJECTS.md) for scope and limitations.
 
@@ -133,7 +149,7 @@ No. JOONS Agent Guard and JOONS Allocator are independent libraries. Allocator's
 
 ### Are the public products bundled into CORE?
 
-No. CORE does not import or ship Guard, Allocator, Toolkit, or Probe today. Future integration is a plan.
+No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, or Diff today. Future integration is a plan.
 
 ### Is MCP Toolkit the production CORE server?
 

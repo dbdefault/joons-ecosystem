@@ -1,6 +1,6 @@
 # Integration
 
-None of JOONS Agent Guard, JOONS Allocator, JOONS MCP Toolkit or JOONS MCP Probe is bundled into or shipped with JOONS CORE today. CORE does not import them.
+None of JOONS Agent Guard, JOONS Allocator, JOONS MCP Toolkit, JOONS MCP Probe or JOONS MCP Diff is bundled into or shipped with JOONS CORE today. CORE does not import them.
 
 | State | Integration |
 |---|---|
@@ -8,6 +8,7 @@ None of JOONS Agent Guard, JOONS Allocator, JOONS MCP Toolkit or JOONS MCP Probe
 | Planned | CORE could use Guard and Allocator internally where useful. |
 | Planned | Probe could gain an optional MCP adapter. |
 | Implemented today | Public, v0.1.0 Preview: Probe is an external read-only tool for inspecting MCP servers without depending on CORE. An operator could inspect CORE in the future. |
+| Implemented today | Diff is an independent external snapshot and comparison tool; it does not need Probe and has no library integration with ecosystem products today. Probe can be used for server health and Diff in CI for contract drift. |
 
 Install the optional hooks with `pip install "joons-allocator[guard]"`. `joons_allocator.integrations.guard.GuardHooks` provides the hooks. `before_lease` can veto inside the lease transaction; `after_*` hooks run after commit.
 

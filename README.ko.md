@@ -9,6 +9,7 @@ JOONS는 AI 에이전트를 도구, 컴퓨터, 지식, 신뢰할 수 있는 실�
 ![Allocator Preview](https://img.shields.io/badge/Allocator-Preview-orange?labelColor=4F46E5)
 ![MCP Toolkit Public](https://img.shields.io/badge/MCP%20Toolkit-Public-brightgreen?labelColor=4F46E5)
 ![MCP Probe Preview](https://img.shields.io/badge/MCP%20Probe-Preview-orange?labelColor=4F46E5)
+![MCP Diff Preview](https://img.shields.io/badge/MCP%20Diff-Preview-orange?labelColor=4F46E5)
 
 [English](README.md)
 
@@ -32,6 +33,7 @@ flowchart TD
     Allocator["JOONS Allocator"] -. "optional hooks" .-> Guard["JOONS Agent Guard"]
     Toolkit["JOONS MCP Toolkit"]
     Probe["JOONS MCP Probe Preview"]
+    Diff["JOONS MCP Diff Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -39,7 +41,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe preview
+    class Probe,Diff preview
 ```
 
 이 개념도는 독립 제품이 CORE에 내장되어 있다는 뜻이 아닙니다. 현재 구현된 라이브러리 간 연동은 Allocator의 선택적 Guard 훅뿐입니다.
@@ -51,6 +53,7 @@ flowchart TD
 | JOONS Allocator | 누가 어떤 작업을 하나요? | 작업 할당 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-allocator) |
 | JOONS MCP Toolkit | 어떻게 만들어야 하나요? | 개발 참조 자료 | 공개 참조 구현, 초기 단계 | [저장소](https://github.com/dbdefault/joons-mcp-toolkit) |
 | JOONS MCP Probe | MCP 서버가 올바르게 동작하나요? | 진단과 검증 | Public, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-probe) |
+| JOONS MCP Diff | 무엇이 바뀌었고 에이전트에 문제가 생길까요? | MCP 개발 도구: 계약 비교 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-diff) |
 
 ## What you can do today
 
@@ -102,6 +105,18 @@ npm install -g github:dbdefault/joons-mcp-probe#v0.1.0
 
 Probe는 stdio 또는 Streamable HTTP를 통해 도구 호출 없이 MCP 서버를 검사합니다. CLI 사용법은 [저장소](https://github.com/dbdefault/joons-mcp-probe)를 참고하세요.
 
+### MCP 도구 계약 비교
+
+JOONS MCP Diff는 AI 에이전트가 중단되기 전에 MCP 도구와 스키마의 변경을 감지합니다. [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-diff/releases/tag/v0.1.0)를 설치합니다.
+
+```sh
+npm install -g github:dbdefault/joons-mcp-diff#v0.1.0
+```
+
+Diff는 stdio 또는 Streamable HTTP에서 읽기 전용 `tools/list`로 버전이 있는 정규 JSON 스냅샷을 수집하고 두 시점을 비교합니다. 스냅샷에는 명령, 경로, URL, 헤더, 환경 변수 값 또는 토큰을 저장하지 않습니다. 변경은 BREAKING, NON_BREAKING, UNKNOWN으로 분류하며 확인할 수 없는 호환성은 UNKNOWN이고 이름 변경 힌트는 제안일 뿐입니다. 터미널, Markdown, JSON 보고서, CI용 `--fail-on` 및 종료 코드 0–4를 제공합니다. Apache-2.0, JavaScript ESM, Node.js 20+와 공식 MCP SDK를 사용합니다.
+
+Probe는 MCP 서버 하나의 현재 프로토콜 동작과 도구 계약을 검사하고 Diff는 두 시점의 도구 계약을 비교합니다. 두 제품은 독립적이고 상호 보완적이며 Diff는 Probe가 필요하지 않습니다. 예를 들어 Probe로 상태를 확인하고 Diff를 CI에서 사용해 계약 변경을 감지할 수 있습니다.
+
 ## Choosing a product
 
 1. 비공개 MCP 서버와 도구 실행이 필요하다면 JOONS CORE를 고려하세요.
@@ -109,6 +124,7 @@ Probe는 stdio 또는 Streamable HTTP를 통해 도구 호출 없이 MCP 서버�
 3. 작업을 워커에게 할당하려면 JOONS Allocator부터 살펴보세요.
 4. MCP 구현 패턴을 학습하려면 JOONS MCP Toolkit을 살펴보세요.
 5. 프로토콜과 도구 계약 진단이 필요하다면 JOONS MCP Probe를 사용하세요.
+6. 계약 변경과 호환성 위험을 감지하려면 JOONS MCP Diff를 사용하세요.
 
 라이브러리는 CORE 없이 사용할 수 있습니다. 범위와 제한은 [제품 비교](docs/PROJECTS.md)를 참고하세요.
 
@@ -133,7 +149,7 @@ Probe는 stdio 또는 Streamable HTTP를 통해 도구 호출 없이 MCP 서버�
 
 ### 공개 제품이 CORE에 포함되어 있나요?
 
-아니요. 현재 CORE는 Guard, Allocator, Toolkit, Probe를 가져오거나 함께 제공하지 않습니다. 향후 연동은 계획입니다.
+아니요. 현재 CORE는 Guard, Allocator, Toolkit, Probe, Diff를 가져오거나 함께 제공하지 않습니다. 향후 연동은 계획입니다.
 
 ### MCP Toolkit이 운영용 CORE 서버인가요?
 

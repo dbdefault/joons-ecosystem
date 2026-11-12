@@ -8,7 +8,7 @@ This is a conceptual architecture. It shows boundaries between public products a
 2. MCP Interface Layer - MCP protocol over stdio / Streamable HTTP
 3. JOONS CORE MCP - private MCP server (tool registry, transports, target selection)
 4. Independent Reliability Libraries - Agent Guard, Allocator (usable without CORE)
-5. MCP Development & Diagnostic Tools - MCP Toolkit, MCP Probe
+5. MCP Development & Diagnostic Tools - MCP Toolkit, MCP Probe, MCP Diff
 6. External Tools and Data Sources - computers, phones, files, knowledge bases, web, Git, external MCP servers
 
 ```mermaid
@@ -18,11 +18,13 @@ flowchart TD
     C["JOONS CORE MCP"]
     D["Independent Reliability Libraries"]
     E["MCP Development and Diagnostic Tools"]
+    Diff["JOONS MCP Diff Preview"]
     F["External Tools and Data Sources"]
     A --> B --> C --> F
     D ~~~ E
     C ~~~ D
     E ~~~ F
+    E --- Diff
     classDef interface fill:#4F46E5,stroke:#4F46E5,color:#fff
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -31,6 +33,7 @@ flowchart TD
     class C private
     class D preview
     class E mixed
+    class Diff preview
 ```
 
 ## Public and private boundary
@@ -42,6 +45,7 @@ flowchart LR
         Allocator["JOONS Allocator"]
         Toolkit["JOONS MCP Toolkit"]
         Probe["JOONS MCP Probe Preview"]
+        Diff["JOONS MCP Diff Preview"]
         Allocator -. "optional hooks" .-> Guard
     end
     subgraph Private["Private operating system"]
@@ -53,7 +57,7 @@ flowchart LR
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     class Toolkit public
     class Guard,Allocator preview
-    class Probe preview
+    class Probe,Diff preview
     class CORE private
 ```
 
@@ -79,6 +83,8 @@ Agent Guard supplies durable exclusive locks, a circuit breaker, and replay prot
 
 MCP Toolkit is an early public educational reference. It offers implementation patterns, not the production CORE server. MCP Probe is Public, v0.1.0 Preview and inspects protocol behaviour and tool contracts without calling tools. It does not duplicate CORE host monitoring or tool-list browsing.
 
+MCP Diff is a public v0.1.0 Preview that compares versioned read-only tool snapshots across two points in time. It reports BREAKING, NON_BREAKING and UNKNOWN changes; unprovable compatibility is UNKNOWN and rename hints are suggestions. Probe inspects a server's current protocol behaviour and tool contract; Diff is independent of Probe and complements it for CI contract drift detection.
+
 ### 6. External Tools and Data Sources
 
 The conceptual external layer includes computers, phones, files, knowledge bases, web, Git and external MCP servers. CORE can connect to these categories; the diagram does not imply that any particular source is available in a given environment.
@@ -92,26 +98,21 @@ Separately, an application can use Allocator without CORE. When the optional Gua
 Probe is an external read-only inspector of MCP servers. Its v0.1.0 Preview does not call tools; inspecting CORE is a future operator action, not an embedded integration.
 
 ```mermaid
-sequenceDiagram
-    participant App as Application
-    participant Allocator as Allocator
-    participant Hooks as GuardHooks
-    App->>Allocator: Request lease
-    Allocator->>Allocator: Begin lease transaction
-    Allocator->>Hooks: before_lease
-    Hooks-->>Allocator: Allow or veto
-    alt Lease allowed
-        Allocator->>Allocator: Commit transaction
-        Allocator->>Hooks: after hooks
-    else Lease vetoed
-        Allocator->>Allocator: Do not lease
-    end
+flowchart TD
+    App["Application requests lease"] --> Begin["Allocator begins lease transaction"]
+    Begin --> Before["GuardHooks before_lease"]
+    Before -->|"Allow"| Commit["Allocator commits transaction"]
+    Commit --> After["GuardHooks after hooks"]
+    Before -->|"Veto"| Stop["Allocator does not lease"]
+    Diff["JOONS MCP Diff Preview (independent)"]
+    classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
+    class Diff preview
 ```
 
 ## Trust and product boundaries
 
 - CORE is private; its source is not published. Toolkit does not expose or require it.
-- Guard, Allocator, Toolkit and Probe are not bundled into or shipped with CORE, and CORE does not import them.
+- Guard, Allocator, Toolkit, Probe and Diff are not bundled into or shipped with CORE, and CORE does not import them.
 - Guard and Allocator operate on a single machine. Their storage and limits must not be read as a distributed coordination guarantee.
 - Guard locks are advisory and never expire on their own. Allocator has no lease expiry today.
 - Probe's intended read-only boundary excludes tool calls in 0.1.0. Later opt-in checks remain ideas.
@@ -121,7 +122,7 @@ sequenceDiagram
 
 Durable state helps preserve the information a component records: Guard has durable locks and Allocator has an append-only audit. Allocator includes explicit retry and recover operations. These capabilities should be considered alongside the single-machine scope and the absence of automatic lock or lease expiry.
 
-Use an honest UNKNOWN when available evidence does not establish an outcome; do not infer execution from a request or a conceptual diagram. UNKNOWN is a reporting principle here, not a claim of a product status value. Probe reports classify results as PASS, WARNING or FAIL.
+Use an honest UNKNOWN when available evidence does not establish an outcome; do not infer execution from a request or a conceptual diagram. Probe reports classify results as PASS, WARNING or FAIL; Diff uses UNKNOWN for changes whose compatibility cannot be established.
 
 ## Current and future integration
 

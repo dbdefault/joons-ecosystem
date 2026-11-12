@@ -9,6 +9,7 @@
 | JOONS Allocator | Python | 3.9-3.13 | SQLite | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Toolkit | JavaScript | Not specified | In-memory coordinator; durable request ledger | MIT | Public reference implementation, early |
 | JOONS MCP Probe | JavaScript ESM | Node.js 20+ | Not specified | Apache-2.0 | Public, v0.1.0 Preview |
+| JOONS MCP Diff | JavaScript ESM | Node.js 20+ | Versioned JSON snapshots | Apache-2.0 | Public, v0.1.0 Preview |
 
 ## JOONS CORE
 
@@ -42,5 +43,13 @@
 - Failure kinds: `spawn_failed`, `connection_refused`, `handshake_failed`, `protocol_mismatch`, `invalid_response`, `timeout`, `process_exited`, `auth_failed`.
 - CLI exit codes: 0 pass, 1 warning with `--fail-on warning`, 2 fail, 3 usage error, 4 output error.
 - Limitations: Read-only; v0.1.0 sends only `initialize`, `notifications/initialized`, `tools/list` and `ping`, and does not call tools. It focuses on protocol behaviour and tool contracts rather than host monitoring or tool-list browsing. Install from GitHub; it is not on npm.
+
+## JOONS MCP Diff
+
+- Category: MCP Development Tools. Core question: What changed, and will it break my agents?
+- Status: Public, [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-diff/releases/tag/v0.1.0). Apache-2.0, JavaScript ESM, Node.js 20+, official MCP SDK. [Repository](https://github.com/dbdefault/joons-mcp-diff).
+- Capabilities: Read-only `tools/list` snapshots over stdio or Streamable HTTP, saved as versioned canonical JSON; compare snapshots with BREAKING, NON_BREAKING and UNKNOWN classifications, conservative UNKNOWN for unprovable changes, and rename hints only. Terminal, Markdown and JSON reports, `--fail-on` for CI and exit codes 0–4 are available. Snapshots never store commands, paths, URLs, headers, environment values or tokens.
+- Install: `npm install -g github:dbdefault/joons-mcp-diff#v0.1.0`.
+- Boundary: Probe inspects one server's current protocol behaviour and tool contract. Diff compares the tool contract at two points in time; it does not need Probe. Use Probe for health and Diff in CI for contract drift. Diff is not bundled into CORE and has no library integration with the other ecosystem products today.
 
 [Back to README](../README.md)
