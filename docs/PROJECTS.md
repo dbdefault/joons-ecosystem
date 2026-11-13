@@ -13,6 +13,7 @@
 | JOONS MCP Policy Gate | JavaScript ESM | Node.js 20+ | Versioned JSON policy and snapshot inputs | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Mock Server | JavaScript ESM | Node.js 20+ | Snapshot and optional JSON fixture inputs; in-memory call recording and optional JSON report | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Contract Test Runner | JavaScript ESM | Node.js 20+ | JSON test suites; terminal, JSON and Markdown reports | Apache-2.0 | Public, v0.1.0 Preview |
+| JOONS MCP Report Hub | JavaScript ESM | Node.js 20+ | JSON reports in; summary, offline HTML dashboard and SVG badges out | Apache-2.0 | Public, v0.1.0 Preview |
 
 ## JOONS CORE
 
@@ -79,4 +80,11 @@
 - Install: `npm install -g github:dbdefault/joons-mcp-contract-runner#v0.1.0` and the Mock Server `npm install -g github:dbdefault/joons-mcp-mock-server#v0.1.0`.
 - Boundary: 0.1.0 runs only against a JOONS MCP Mock Server, identity-checked before any tool call, so no real tool is called; real-server execution is planned with explicit opt-in and an exact per-tool allowlist. Probe diagnoses a real server; Diff compares two snapshots; Policy Gate checks one snapshot against a policy; Mock Server runs a mock server; Contract Test Runner runs behavioral contract tests against the mock. It is installed and run independently and uses the Mock Server only as its test target. CORE does not import or ship it.
 
+## JOONS MCP Report Hub
+
+- Category: MCP Development Tools: report aggregation. Core question: Where can I see all my MCP reports in one place?
+- Status: Public, [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-report-hub/releases/tag/v0.1.0), not on npm. Apache-2.0, JavaScript ESM, Node.js 20+, zero runtime dependencies. [Repository](https://github.com/dbdefault/joons-mcp-report-hub).
+- Capabilities: Reads the JSON reports of Probe, Diff, Policy Gate, Mock Server and Contract Test Runner and produces one normalized summary, a self-contained offline HTML dashboard and SVG badges. Report content is treated as untrusted input; default output is an allowlist and drops tool names, server names, messages, paths, URLs and error text.
+- Install: `npm install -g github:dbdefault/joons-mcp-report-hub#v0.1.0`
+- Boundary: It only reads JSON files you point it at and writes its own output files. It never connects to an MCP server, never runs a tool or program, and makes no network request. It needs none of the other products installed. CORE does not import or ship it.
 [Back to README](../README.md)
