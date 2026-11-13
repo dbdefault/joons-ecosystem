@@ -15,6 +15,7 @@
 | JOONS MCP Contract Test Runner | JavaScript ESM | Node.js 20+ | JSON test suites; terminal, JSON and Markdown reports | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Report Hub | JavaScript ESM | Node.js 20+ | JSON reports in; summary, offline HTML dashboard and SVG badges out | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Schema Toolkit | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.0 Preview |
+| JOONS MCP Tool Catalog | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Test Data Generator | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.0 Preview |
 
 ## JOONS CORE
@@ -104,5 +105,13 @@
 - Capabilities: Offline inspection of a supported subset of MCP tool schemas, with example and fixture generation; refuses credential-like identifiers.
 - Install: `npm install -g github:dbdefault/joons-mcp-schema-toolkit#v0.1.0`
 - Boundary: Works offline on files you point it at and writes only its own output files. CORE does not import or ship it.
+
+## JOONS MCP Tool Catalog
+
+- Category: MCP Development Tools: tool catalog. Core question: Which tools do my MCP servers expose together, and do any names collide?
+- Status: Public, [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-tool-catalog/releases/tag/v0.1.0), not on npm. Apache-2.0, JavaScript ESM, Node.js 20+, zero runtime dependencies. [Repository](https://github.com/dbdefault/joons-mcp-tool-catalog).
+- Capabilities: Offline command-line tool that merges several MCP tool-list snapshots into one normalized catalog, finds exact and weak name collisions across servers, searches tool names and descriptions with a deterministic ranking, and writes deterministic JSON, Markdown and terminal reports. Sanitizing of free text is best-effort pattern matching, not an anonymization guarantee.
+- Install: `npm install -g github:dbdefault/joons-mcp-tool-catalog#v0.1.0`
+- Boundary: Command-line tool only; the JavaScript modules are internal and not a supported library. It only reads the snapshot files you point it at and writes its own output files; it never connects to an MCP server, never runs a tool or program, and makes no network request. CORE does not import or ship it.
 
 [Back to README](../README.md)
