@@ -14,6 +14,8 @@
 | JOONS MCP Mock Server | JavaScript ESM | Node.js 20+ | Snapshot and optional JSON fixture inputs; in-memory call recording and optional JSON report | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Contract Test Runner | JavaScript ESM | Node.js 20+ | JSON test suites; terminal, JSON and Markdown reports | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Report Hub | JavaScript ESM | Node.js 20+ | JSON reports in; summary, offline HTML dashboard and SVG badges out | Apache-2.0 | Public, v0.1.0 Preview |
+| JOONS MCP Schema Toolkit | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.0 Preview |
+| JOONS MCP Test Data Generator | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.0 Preview |
 
 ## JOONS CORE
 
@@ -87,4 +89,20 @@
 - Capabilities: Reads the JSON reports of Probe, Diff, Policy Gate, Mock Server and Contract Test Runner and produces one normalized summary, a self-contained offline HTML dashboard and SVG badges. Report content is treated as untrusted input; default output is an allowlist and drops tool names, server names, messages, paths, URLs and error text.
 - Install: `npm install -g github:dbdefault/joons-mcp-report-hub#v0.1.0`
 - Boundary: It only reads JSON files you point it at and writes its own output files. It never connects to an MCP server, never runs a tool or program, and makes no network request. It needs none of the other products installed. CORE does not import or ship it.
+## JOONS MCP Test Data Generator
+
+- Category: MCP Development Tools: test data generation. Core question: How do I get valid and invalid test inputs for my MCP tools?
+- Status: Public, [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-test-data-generator/releases/tag/v0.1.0), not on npm. Apache-2.0, JavaScript ESM, Node.js 20+. [Repository](https://github.com/dbdefault/joons-mcp-test-data-generator).
+- Capabilities: Deterministic, offline generation of schema-valid and invalid test inputs (fixtures, suite and dataset outputs) from a tool snapshot; refuses credential-like tool and property names.
+- Install: `npm install -g github:dbdefault/joons-mcp-test-data-generator#v0.1.0`
+- Boundary: Works offline on files you point it at and writes only its own output files. CORE does not import or ship it.
+
+## JOONS MCP Schema Toolkit
+
+- Category: MCP Development Tools: schema inspection. Core question: Are my MCP tool schemas well formed, and what do they accept?
+- Status: Public, [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-schema-toolkit/releases/tag/v0.1.0), not on npm. Apache-2.0, JavaScript ESM, Node.js 20+. [Repository](https://github.com/dbdefault/joons-mcp-schema-toolkit).
+- Capabilities: Offline inspection of a supported subset of MCP tool schemas, with example and fixture generation; refuses credential-like identifiers.
+- Install: `npm install -g github:dbdefault/joons-mcp-schema-toolkit#v0.1.0`
+- Boundary: Works offline on files you point it at and writes only its own output files. CORE does not import or ship it.
+
 [Back to README](../README.md)
