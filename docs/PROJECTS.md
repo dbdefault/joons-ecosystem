@@ -18,6 +18,7 @@
 | JOONS MCP Tool Catalog | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.1 Preview |
 | JOONS MCP Test Data Generator | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Context Budget | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.0 Preview |
+| JOONS Search Engine | JavaScript ESM | Node.js 20+ | Offline CLI and library | Apache-2.0 | Public, v0.1.0 Preview |
 
 ## JOONS CORE
 
@@ -122,5 +123,13 @@
 - Capabilities: Offline command-line tool that reads MCP tool-list snapshots, estimates the context size of the tool definitions, ranks the largest tools, checks the estimate against a budget, and writes JSON and Markdown reports. Estimates are based on UTF-8 bytes and a configurable formula, not tokenizer counts.
 - Install: `npm install -g github:dbdefault/joons-mcp-context-budget#v0.1.0`
 - Boundary: Command-line tool only; the JavaScript modules are internal and not a supported library. It only reads the snapshot files you point it at and writes its own output files; it never connects to an MCP server and makes no network request. CORE does not import or ship it.
+
+## JOONS Search Engine
+
+- Category: Standalone tool: local document search. Core question: How do I index my local documents offline and search them with explainable ranking?
+- Status: Public, [v0.1.0 Preview](https://github.com/dbdefault/joons-search-engine/releases/tag/v0.1.0), not on npm. Apache-2.0, JavaScript ESM, Node.js 20+, zero runtime dependencies. [Repository](https://github.com/dbdefault/joons-search-engine).
+- Capabilities: Offline command-line tool and library that index Markdown, TXT, JSON and CSV files, search them with multilingual tokenization (Korean, Chinese, Japanese, English), user synonym dictionaries and configurable path and metadata rules, return deterministic results with a score explanation, and measure retrieval quality with a built-in evaluation toolkit and public synthetic datasets.
+- Install: `npm install -g github:dbdefault/joons-search-engine#v0.1.0`
+- Boundary: A standalone product. It only reads the folders you point it at and writes its own index files; it makes no network request and does not depend on CORE. CORE does not import or ship it; an adapter interface is documented for future optional use.
 
 [Back to README](../README.md)

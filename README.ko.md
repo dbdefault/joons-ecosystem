@@ -18,6 +18,7 @@ JOONS는 AI 에이전트를 도구, 컴퓨터, 지식, 신뢰할 수 있는 실�
 ![MCP Tool Catalog Preview](https://img.shields.io/badge/MCP%20Tool%20Catalog-Preview-orange?labelColor=4F46E5)
 ![MCP Test Data Generator Preview](https://img.shields.io/badge/MCP%20Test%20Data%20Generator-Preview-orange?labelColor=4F46E5)
 ![MCP Context Budget Preview](https://img.shields.io/badge/MCP%20Context%20Budget-Preview-orange?labelColor=4F46E5)
+![Search Engine Preview](https://img.shields.io/badge/Search%20Engine-Preview-orange?labelColor=4F46E5)
 
 [English](README.md)
 
@@ -50,6 +51,7 @@ flowchart TD
     ToolCatalog["JOONS MCP Tool Catalog Preview"]
     TestData["JOONS MCP Test Data Generator Preview"]
     ContextBudget["JOONS MCP Context Budget Preview"]
+    SearchEngine["JOONS Search Engine Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -57,7 +59,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff,PolicyGate,MockServer,ContractRunner,ReportHub,TestData,SchemaKit,ToolCatalog,ContextBudget preview
+    class Probe,Diff,PolicyGate,MockServer,ContractRunner,ReportHub,TestData,SchemaKit,ToolCatalog,ContextBudget,SearchEngine preview
 ```
 
 이 개념도는 독립 제품이 CORE에 내장되어 있다는 뜻이 아닙니다. 현재 구현된 라이브러리 간 연동은 Allocator의 선택적 Guard 훅뿐입니다.
@@ -78,6 +80,7 @@ flowchart TD
 | JOONS MCP Tool Catalog | 내 MCP 서버들이 함께 노출하는 도구는 무엇이고 이름이 겹치는 것은 없나요? | MCP 개발 도구: 도구 카탈로그 | 공개, v0.1.1 Preview | [저장소](https://github.com/dbdefault/joons-mcp-tool-catalog) |
 | JOONS MCP Test Data Generator | 내 MCP 도구에 쓸 정상·비정상 시험 입력은 어떻게 만드나요? | MCP 개발 도구: 시험 데이터 생성 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-test-data-generator) |
 | JOONS MCP Context Budget | MCP 도구 정의가 컨텍스트를 얼마나 차지하나요? | MCP 개발 도구: 컨텍스트 예산 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-context-budget) |
+| JOONS Search Engine | 내 로컬 문서를 오프라인으로 색인하고 설명 가능한 순위로 검색하려면 어떻게 하나요? | 독립 도구: 로컬 문서 검색 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-search-engine) |
 
 ## What you can do today
 
@@ -225,7 +228,7 @@ joons-mcp-contract-test run shop.suite.json --snapshot snapshot.json --fixtures 
 
 ### 공개 제품이 CORE에 포함되어 있나요?
 
-아니요. 현재 CORE는 Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, Contract Test Runner, Report Hub, Test Data Generator, Schema Toolkit, Tool Catalog, Context Budget를 가져오거나 함께 제공하지 않습니다. 향후 연동은 계획입니다.
+아니요. 현재 CORE는 Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, Contract Test Runner, Report Hub, Test Data Generator, Schema Toolkit, Tool Catalog, Context Budget, Search Engine를 가져오거나 함께 제공하지 않습니다. 향후 연동은 계획입니다.
 
 ### MCP Toolkit이 운영용 CORE 서버인가요?
 
