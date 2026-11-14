@@ -19,6 +19,7 @@
 | JOONS MCP Test Data Generator | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Context Budget | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS Search Engine | JavaScript ESM | Node.js 20+ | Offline CLI and library | Apache-2.0 | Public, v0.1.0 Preview |
+| JOONS MCP Audit Trail | JavaScript ESM | Node.js 20+ | Offline CLI and library | Apache-2.0 | Public, v0.1.0 Preview |
 
 ## JOONS CORE
 
@@ -131,5 +132,13 @@
 - Capabilities: Offline command-line tool and library that index Markdown, TXT, JSON and CSV files, search them with multilingual tokenization (Korean, Chinese, Japanese, English), user synonym dictionaries and configurable path and metadata rules, return deterministic results with a score explanation, and measure retrieval quality with a built-in evaluation toolkit and public synthetic datasets.
 - Install: `npm install -g github:dbdefault/joons-search-engine#v0.1.0`
 - Boundary: A standalone product. It only reads the folders you point it at and writes its own index files; it makes no network request and does not depend on CORE. CORE does not import or ship it; an adapter interface is documented for future optional use.
+
+## JOONS MCP Audit Trail
+
+- Category: MCP Development Tools: tamper-evident audit log. Core question: How do I show that the record of my AI agent and MCP tool activity was not altered afterwards?
+- Status: Public, [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-audit-trail/releases/tag/v0.1.0), not on npm. Apache-2.0, JavaScript ESM, Node.js 20+, zero runtime dependencies. [Repository](https://github.com/dbdefault/joons-mcp-audit-trail).
+- Capabilities: Offline command-line tool and library that append events to a JSON-Lines log as a hash chain (SHA-256, or HMAC-SHA256 with a key file), verify the chain and report edits, deletions, reordering and insertions, detect removal of the newest records against an anchor file, and write show, summary and export reports (JSON, CSV, Markdown). It detects modification; it does not prevent it.
+- Install: `npm install -g github:dbdefault/joons-mcp-audit-trail#v0.1.0`
+- Boundary: A standalone product. It only reads and writes the log, key and anchor files you point it at; it makes no network request and does not depend on CORE. CORE does not import or ship it.
 
 [Back to README](../README.md)

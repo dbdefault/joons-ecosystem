@@ -19,6 +19,7 @@ JOONS is an MCP-centered AI infrastructure ecosystem that connects AI agents wit
 ![MCP Test Data Generator Preview](https://img.shields.io/badge/MCP%20Test%20Data%20Generator-Preview-orange?labelColor=4F46E5)
 ![MCP Context Budget Preview](https://img.shields.io/badge/MCP%20Context%20Budget-Preview-orange?labelColor=4F46E5)
 ![Search Engine Preview](https://img.shields.io/badge/Search%20Engine-Preview-orange?labelColor=4F46E5)
+![MCP Audit Trail Preview](https://img.shields.io/badge/MCP%20Audit%20Trail-Preview-orange?labelColor=4F46E5)
 
 [한국어](README.ko.md)
 
@@ -52,6 +53,7 @@ flowchart TD
     TestData["JOONS MCP Test Data Generator Preview"]
     ContextBudget["JOONS MCP Context Budget Preview"]
     SearchEngine["JOONS Search Engine Preview"]
+    AuditTrail["JOONS MCP Audit Trail Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -59,7 +61,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff,PolicyGate,MockServer,ContractRunner,ReportHub,TestData,SchemaKit,ToolCatalog,ContextBudget,SearchEngine preview
+    class Probe,Diff,PolicyGate,MockServer,ContractRunner,ReportHub,TestData,SchemaKit,ToolCatalog,ContextBudget,SearchEngine,AuditTrail preview
 ```
 
 This conceptual map does not imply that independent products are embedded in CORE. Allocator's optional Guard hooks are the only implemented library-to-library integration.
@@ -81,6 +83,7 @@ This conceptual map does not imply that independent products are embedded in COR
 | JOONS MCP Test Data Generator | How do I get valid and invalid test inputs for my MCP tools? | MCP Development Tools: test data generation | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-test-data-generator) |
 | JOONS MCP Context Budget | How much context do my MCP tool definitions take up? | MCP Development Tools: context budgeting | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-context-budget) |
 | JOONS Search Engine | How do I index my local documents offline and search them with explainable ranking? | Standalone tool: local document search | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-search-engine) |
+| JOONS MCP Audit Trail | How do I show that the record of my AI agent and MCP tool activity was not altered afterwards? | MCP Development Tools: tamper-evident audit log | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-audit-trail) |
 
 ## What you can do today
 
@@ -228,7 +231,7 @@ No. JOONS Agent Guard and JOONS Allocator are independent libraries. Allocator's
 
 ### Are the public products bundled into CORE?
 
-No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, Contract Test Runner, Report Hub, Test Data Generator, Schema Toolkit, Tool Catalog, Context Budget, or Search Engine today. Future integration is a plan.
+No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, Contract Test Runner, Report Hub, Test Data Generator, Schema Toolkit, Tool Catalog, Context Budget, Search Engine, or Audit Trail today. Future integration is a plan.
 
 ### Is MCP Toolkit the production CORE server?
 
