@@ -20,6 +20,7 @@
 | JOONS MCP Context Budget | JavaScript ESM | Node.js 20+ | Offline CLI | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS Search Engine | JavaScript ESM | Node.js 20+ | Offline CLI and library | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Audit Trail | JavaScript ESM | Node.js 20+ | Offline CLI and library | Apache-2.0 | Public, v0.1.0 Preview |
+| JOONS MCP Config Doctor | JavaScript ESM | Node.js 20+ | Offline CLI and library | Apache-2.0 | Public, v0.1.0 Preview |
 
 ## JOONS CORE
 
@@ -140,5 +141,13 @@
 - Capabilities: Offline command-line tool and library that append events to a JSON-Lines log as a hash chain (SHA-256, or HMAC-SHA256 with a key file), verify the chain and report edits, deletions, reordering and insertions, detect removal of the newest records against an anchor file, and write show, summary and export reports (JSON, CSV, Markdown). It detects modification; it does not prevent it.
 - Install: `npm install -g github:dbdefault/joons-mcp-audit-trail#v0.1.0`
 - Boundary: A standalone product. It only reads and writes the log, key and anchor files you point it at; it makes no network request and does not depend on CORE. CORE does not import or ship it.
+
+## JOONS MCP Config Doctor
+
+- Category: MCP Development Tools: config linting and conversion. Core question: Is my MCP client config file correct, safe and portable?
+- Status: Public, [v0.1.0 Preview](https://github.com/dbdefault/joons-mcp-config-doctor/releases/tag/v0.1.0), not on npm. Apache-2.0, JavaScript ESM, Node.js 20+, zero runtime dependencies. [Repository](https://github.com/dbdefault/joons-mcp-config-doctor).
+- Capabilities: Offline command-line tool and library that read MCP client config files (Claude Desktop, Claude Code, Cursor, VS Code), report problems (missing commands, unpinned packages, shell wrappers, insecure URLs, secrets by credential shape and key name), list servers without revealing values, convert between the four formats with explicit loss warnings, and write a redacted copy that is safe to share. It never starts a server or opens a network connection.
+- Install: `npm install -g github:dbdefault/joons-mcp-config-doctor#v0.1.0`
+- Boundary: A standalone product. It only reads and writes the config files you point it at; it makes no network request and does not depend on CORE. CORE does not import or ship it. Credential detection is a heuristic list, not a guarantee.
 
 [Back to README](../README.md)
