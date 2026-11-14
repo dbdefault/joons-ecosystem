@@ -17,6 +17,7 @@ JOONS is an MCP-centered AI infrastructure ecosystem that connects AI agents wit
 ![MCP Schema Toolkit Preview](https://img.shields.io/badge/MCP%20Schema%20Toolkit-Preview-orange?labelColor=4F46E5)
 ![MCP Tool Catalog Preview](https://img.shields.io/badge/MCP%20Tool%20Catalog-Preview-orange?labelColor=4F46E5)
 ![MCP Test Data Generator Preview](https://img.shields.io/badge/MCP%20Test%20Data%20Generator-Preview-orange?labelColor=4F46E5)
+![MCP Context Budget Preview](https://img.shields.io/badge/MCP%20Context%20Budget-Preview-orange?labelColor=4F46E5)
 
 [한국어](README.ko.md)
 
@@ -48,6 +49,7 @@ flowchart TD
     SchemaKit["JOONS MCP Schema Toolkit Preview"]
     ToolCatalog["JOONS MCP Tool Catalog Preview"]
     TestData["JOONS MCP Test Data Generator Preview"]
+    ContextBudget["JOONS MCP Context Budget Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -55,7 +57,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff,PolicyGate,MockServer,ContractRunner,ReportHub,TestData,SchemaKit,ToolCatalog preview
+    class Probe,Diff,PolicyGate,MockServer,ContractRunner,ReportHub,TestData,SchemaKit,ToolCatalog,ContextBudget preview
 ```
 
 This conceptual map does not imply that independent products are embedded in CORE. Allocator's optional Guard hooks are the only implemented library-to-library integration.
@@ -73,8 +75,9 @@ This conceptual map does not imply that independent products are embedded in COR
 | JOONS MCP Contract Test Runner | Do my tools still behave the way my agents expect? | MCP Development Tools: contract testing | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-contract-runner) |
 | JOONS MCP Report Hub | Where can I see all my MCP reports in one place? | MCP Development Tools: report aggregation | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-report-hub) |
 | JOONS MCP Schema Toolkit | Are my MCP tool schemas well formed, and what do they accept? | MCP Development Tools: schema inspection | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-schema-toolkit) |
-| JOONS MCP Tool Catalog | Which tools do my MCP servers expose together, and do any names collide? | MCP Development Tools: tool catalog | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-tool-catalog) |
+| JOONS MCP Tool Catalog | Which tools do my MCP servers expose together, and do any names collide? | MCP Development Tools: tool catalog | Public, v0.1.1 Preview | [Repository](https://github.com/dbdefault/joons-mcp-tool-catalog) |
 | JOONS MCP Test Data Generator | How do I get valid and invalid test inputs for my MCP tools? | MCP Development Tools: test data generation | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-test-data-generator) |
+| JOONS MCP Context Budget | How much context do my MCP tool definitions take up? | MCP Development Tools: context budgeting | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-context-budget) |
 
 ## What you can do today
 
@@ -222,7 +225,7 @@ No. JOONS Agent Guard and JOONS Allocator are independent libraries. Allocator's
 
 ### Are the public products bundled into CORE?
 
-No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, Contract Test Runner, Report Hub, Test Data Generator, Schema Toolkit, or Tool Catalog today. Future integration is a plan.
+No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, Contract Test Runner, Report Hub, Test Data Generator, Schema Toolkit, Tool Catalog, or Context Budget today. Future integration is a plan.
 
 ### Is MCP Toolkit the production CORE server?
 
