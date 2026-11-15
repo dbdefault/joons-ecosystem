@@ -21,6 +21,7 @@
 | JOONS Search Engine | JavaScript ESM | Node.js 20+ | Offline CLI and library | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Audit Trail | JavaScript ESM | Node.js 20+ | Offline CLI and library | Apache-2.0 | Public, v0.1.0 Preview |
 | JOONS MCP Config Doctor | JavaScript ESM | Node.js 20+ | Offline CLI and library | Apache-2.0 | Public, v0.1.0 Preview |
+| JOONS Listen MCP | Python | Python 3.10+, NVIDIA GPU | Local service, CLI and stdio MCP server | Apache-2.0 | Public, v0.1.0 Preview |
 
 ## JOONS CORE
 
@@ -151,3 +152,11 @@
 - Boundary: A standalone product. It only reads and writes the config files you point it at; it makes no network request and does not depend on CORE. CORE does not import or ship it. Credential detection is a heuristic list, not a guarantee.
 
 [Back to README](../README.md)
+
+## JOONS Listen MCP
+
+- Category: Standalone tool: local meeting transcription. Core question: How do I transcribe meeting recordings locally, with speaker turns and flagged numbers, and drive it from an MCP client?
+- Status: Public, [v0.1.0 Preview](https://github.com/dbdefault/joons-listen-mcp/releases/tag/v0.1.0), not on PyPI. Apache-2.0, Python 3.10+, needs an NVIDIA GPU of about 8 GB for the speech models. [Repository](https://github.com/dbdefault/joons-listen-mcp).
+- Capabilities: A loopback-only service and a stdio MCP server (six tools) that turn a recording into a transcript with speaker turns, timestamps and "verify" flags on numbers, prices, dates and codes, using Whisper large-v3 and Qwen3-ASR-1.7B, plus optional Korean translation and minutes through a local LLM. Meeting audio and text stay on the machine.
+- Install: `pip install "joons-listen-mcp[gpu] @ git+https://github.com/dbdefault/joons-listen-mcp@v0.1.0"` (the `gpu` extra pulls the speech packages)
+- Boundary: A standalone product. It reads audio only from folders you allow and sends text only to a local LLM. JOONS CORE has a separate private adapter that talks to the same local HTTP API; CORE does not import or ship this repository. Known weaknesses (far-field audio, numbers, speaker count) are listed in its LIMITATIONS.md.

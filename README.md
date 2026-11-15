@@ -21,6 +21,7 @@ JOONS is an MCP-centered AI infrastructure ecosystem that connects AI agents wit
 ![Search Engine Preview](https://img.shields.io/badge/Search%20Engine-Preview-orange?labelColor=4F46E5)
 ![MCP Audit Trail Preview](https://img.shields.io/badge/MCP%20Audit%20Trail-Preview-orange?labelColor=4F46E5)
 ![MCP Config Doctor Preview](https://img.shields.io/badge/MCP%20Config%20Doctor-Preview-orange?labelColor=4F46E5)
+![Listen MCP Preview](https://img.shields.io/badge/Listen%20MCP-Preview-orange?labelColor=4F46E5)
 
 [한국어](README.ko.md)
 
@@ -56,6 +57,7 @@ flowchart TD
     SearchEngine["JOONS Search Engine Preview"]
     AuditTrail["JOONS MCP Audit Trail Preview"]
     ConfigDoctor["JOONS MCP Config Doctor Preview"]
+    ListenMcp["JOONS Listen MCP Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -63,7 +65,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff,PolicyGate,MockServer,ContractRunner,ReportHub,TestData,SchemaKit,ToolCatalog,ContextBudget,SearchEngine,AuditTrail,ConfigDoctor preview
+    class Probe,Diff,PolicyGate,MockServer,ContractRunner,ReportHub,TestData,SchemaKit,ToolCatalog,ContextBudget,SearchEngine,AuditTrail,ConfigDoctor,ListenMcp preview
 ```
 
 This conceptual map does not imply that independent products are embedded in CORE. Allocator's optional Guard hooks are the only implemented library-to-library integration.
@@ -87,6 +89,7 @@ This conceptual map does not imply that independent products are embedded in COR
 | JOONS Search Engine | How do I index my local documents offline and search them with explainable ranking? | Standalone tool: local document search | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-search-engine) |
 | JOONS MCP Audit Trail | How do I show that the record of my AI agent and MCP tool activity was not altered afterwards? | MCP Development Tools: tamper-evident audit log | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-audit-trail) |
 | JOONS MCP Config Doctor | Is my MCP client config file correct, safe and portable? | MCP Development Tools: config linting and conversion | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-mcp-config-doctor) |
+| JOONS Listen MCP | How do I transcribe meeting recordings locally, with speaker turns and flagged numbers, and drive it from an MCP client? | Standalone tool: local meeting transcription | Public, v0.1.0 Preview | [Repository](https://github.com/dbdefault/joons-listen-mcp) |
 
 ## What you can do today
 
@@ -234,7 +237,7 @@ No. JOONS Agent Guard and JOONS Allocator are independent libraries. Allocator's
 
 ### Are the public products bundled into CORE?
 
-No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, Contract Test Runner, Report Hub, Test Data Generator, Schema Toolkit, Tool Catalog, Context Budget, Search Engine, Audit Trail, or Config Doctor today. Future integration is a plan.
+No. CORE does not import or ship Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, Contract Test Runner, Report Hub, Test Data Generator, Schema Toolkit, Tool Catalog, Context Budget, Search Engine, Audit Trail, Config Doctor, or Listen MCP today. Future integration is a plan.
 
 ### Is MCP Toolkit the production CORE server?
 
