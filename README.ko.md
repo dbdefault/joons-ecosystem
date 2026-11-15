@@ -21,6 +21,7 @@ JOONS는 AI 에이전트를 도구, 컴퓨터, 지식, 신뢰할 수 있는 실�
 ![Search Engine Preview](https://img.shields.io/badge/Search%20Engine-Preview-orange?labelColor=4F46E5)
 ![MCP Audit Trail Preview](https://img.shields.io/badge/MCP%20Audit%20Trail-Preview-orange?labelColor=4F46E5)
 ![MCP Config Doctor Preview](https://img.shields.io/badge/MCP%20Config%20Doctor-Preview-orange?labelColor=4F46E5)
+![Listen MCP Preview](https://img.shields.io/badge/Listen%20MCP-Preview-orange?labelColor=4F46E5)
 
 [English](README.md)
 
@@ -56,6 +57,7 @@ flowchart TD
     SearchEngine["JOONS Search Engine Preview"]
     AuditTrail["JOONS MCP Audit Trail Preview"]
     ConfigDoctor["JOONS MCP Config Doctor Preview"]
+    ListenMcp["JOONS Listen MCP Preview"]
     classDef private fill:#d3d3d3,stroke:#4F46E5,color:#000
     classDef public fill:#90ee90,stroke:#4F46E5,color:#000
     classDef preview fill:#ffa500,stroke:#4F46E5,color:#000
@@ -63,7 +65,7 @@ flowchart TD
     class CORE private
     class Toolkit public
     class Guard,Allocator preview
-    class Probe,Diff,PolicyGate,MockServer,ContractRunner,ReportHub,TestData,SchemaKit,ToolCatalog,ContextBudget,SearchEngine,AuditTrail,ConfigDoctor preview
+    class Probe,Diff,PolicyGate,MockServer,ContractRunner,ReportHub,TestData,SchemaKit,ToolCatalog,ContextBudget,SearchEngine,AuditTrail,ConfigDoctor,ListenMcp preview
 ```
 
 이 개념도는 독립 제품이 CORE에 내장되어 있다는 뜻이 아닙니다. 현재 구현된 라이브러리 간 연동은 Allocator의 선택적 Guard 훅뿐입니다.
@@ -87,6 +89,7 @@ flowchart TD
 | JOONS Search Engine | 내 로컬 문서를 오프라인으로 색인하고 설명 가능한 순위로 검색하려면 어떻게 하나요? | 독립 도구: 로컬 문서 검색 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-search-engine) |
 | JOONS MCP Audit Trail | AI 에이전트와 MCP 도구 활동의 기록이 사후에 바뀌지 않았음을 어떻게 확인하나요? | MCP 개발 도구: 변조 감지 감사 로그 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-audit-trail) |
 | JOONS MCP Config Doctor | 내 MCP 클라이언트 설정 파일은 올바르고 안전하고 옮겨 쓸 수 있나요? | MCP 개발 도구: 설정 파일 점검·변환 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-mcp-config-doctor) |
+| JOONS Listen MCP | 회의 녹음을 내 컴퓨터에서 화자 구간과 확인 필요 숫자 표시까지 붙여 받아쓰고 MCP 클라이언트로 쓰려면 어떻게 하나요? | 독립 도구: 로컬 회의 녹음 전사 | 공개, v0.1.0 Preview | [저장소](https://github.com/dbdefault/joons-listen-mcp) |
 
 ## What you can do today
 
@@ -234,7 +237,7 @@ joons-mcp-contract-test run shop.suite.json --snapshot snapshot.json --fixtures 
 
 ### 공개 제품이 CORE에 포함되어 있나요?
 
-아니요. 현재 CORE는 Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, Contract Test Runner, Report Hub, Test Data Generator, Schema Toolkit, Tool Catalog, Context Budget, Search Engine, Audit Trail, Config Doctor를 가져오거나 함께 제공하지 않습니다. 향후 연동은 계획입니다.
+아니요. 현재 CORE는 Guard, Allocator, Toolkit, Probe, Diff, Policy Gate, Mock Server, Contract Test Runner, Report Hub, Test Data Generator, Schema Toolkit, Tool Catalog, Context Budget, Search Engine, Audit Trail, Config Doctor, Listen MCP를 가져오거나 함께 제공하지 않습니다. 향후 연동은 계획입니다.
 
 ### MCP Toolkit이 운영용 CORE 서버인가요?
 
